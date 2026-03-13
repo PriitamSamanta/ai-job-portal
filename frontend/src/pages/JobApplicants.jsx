@@ -21,6 +21,18 @@ function JobApplicants() {
     fetchApplicants();
   }, [id]);
 
+  const updateStatus = async (id, status) => {
+    try {
+      await API.put(`/applications/status/${id}`, { status });
+
+      alert("Status updated");
+
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div style={{ padding: "20px" }}>
       <h2>Applicants</h2>
@@ -34,7 +46,15 @@ function JobApplicants() {
 
           <p>Email: {app.student_id?.email}</p>
 
-          <p>Match Score: {app.matchScore}%</p>
+          <p>Status: {app.status}</p>
+
+          <button onClick={() => updateStatus(app._id, "shortlisted")}>
+            Shortlist
+          </button>
+
+          <button onClick={() => updateStatus(app._id, "rejected")}>
+            Reject
+          </button>
         </div>
       ))}
     </div>

@@ -3,6 +3,7 @@ import API from "../services/api";
 
 function Jobs() {
   const [jobs, setJobs] = useState([]);
+  const [analysis, setAnalysis] = useState(null);
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -20,14 +21,13 @@ function Jobs() {
 
   const applyJob = async (jobId) => {
     try {
-      await API.post("/applications", {
+      const res = await API.post("/applications", {
         job_id: jobId,
       });
 
-      alert("Applied successfully!");
+      setAnalysis(res.data);
     } catch (error) {
       console.error(error);
-
       alert("Already applied or error occurred");
     }
   };
@@ -52,6 +52,36 @@ function Jobs() {
           <button onClick={() => applyJob(job._id)}>Apply Job</button>
         </div>
       ))}
+
+      {analysis && (
+        <div
+          style={{
+            border: "2px solid green",
+            padding: "20px",
+            marginTop: "20px",
+          }}
+        >
+          <h3>Resume Analysis</h3>
+
+          <p>
+            <strong>Resume Score:</strong> {analysis.resumeScore}%
+          </p>
+
+          <h4>Matched Skills</h4>
+          <ul>
+            {analysis.matchedSkills.map((skill, index) => (
+              <li key={index}>{skill}</li>
+            ))}
+          </ul>
+
+          <h4>Missing Skills</h4>
+          <ul>
+            {analysis.missingSkills.map((skill, index) => (
+              <li key={index}>{skill}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

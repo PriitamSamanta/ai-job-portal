@@ -1,5 +1,6 @@
 const Application = require("../models/Application");
 const Job = require("../models/Job");
+const User = require("../models/User");
 const calculateResumeScore = require("../services/resumeScorer");
 const logActivity = require("../services/activityLogger");
 
@@ -33,9 +34,14 @@ exports.applyJob = async (req, res) => {
     // For now we simulate resume skills
     // Later this will come from resume analyzer
     const user = await User.findById(student_id);
-    const resumeSkills = user.skills;
+    const resumeSkills = user.skills || [];
 
-    const result = calculateResumeScore(jobSkills, resumeSkills);
+    const result = calculateResumeScore(
+      jobSkills,
+      resumeSkills,
+      1, // user experience (temporary)
+      job.experience_required || 1,
+    );
 
     const application = await Application.create({
       student_id,
@@ -109,6 +115,35 @@ exports.getRecruiterDashboard = async (req, res) => {
 
     res.json(filtered);
   } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
+
+exports.updateApplicationStatus = async (req, res) => {
+  try {
+    const { applicationId } = req.params;
+    const { status } = req.body;
+
+    const application = await Application.findById(applicationId);
+
+    if (!application) {
+      return res.status(404).json({
+        message: "Application not found",
+      });
+    }
+
+    application.status = status;
+    await application.save();
+
+    res.json({
+      message: "Application status updated",
+      application,
+    });
+  } catch (error) {
+    console.log(error);
+
     res.status(500).json({
       message: "Server error",
     });
