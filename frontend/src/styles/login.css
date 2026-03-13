@@ -1,0 +1,128 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial;
+}
+
+.login-page {
+  display: flex;
+  height: 100vh;
+}
+
+/* LEFT SIDE */
+
+.login-left {
+  width: 60%;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: white;
+}
+
+.left-overlay {
+  position: absolute;
+  bottom: 80px;
+  left: 60px;
+  max-width: 500px;
+}
+
+.left-overlay h1 {
+  font-size: 40px;
+  margin-bottom: 15px;
+}
+
+.left-overlay p {
+  font-size: 16px;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+/* RIGHT SIDE */
+
+.login-right {
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f4f4f4;
+}
+
+.login-card {
+  width: 380px;
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.login-card select {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0 15px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.login-card h2 {
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.login-card label {
+  font-size: 14px;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0 15px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.divider {
+  text-align: center;
+  margin: 20px 0;
+  color: #888;
+}
+
+.google-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+}
+
+.signup {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.signup span {
+  font-weight: bold;
+  cursor: pointer;
+  color: #2563eb;
+}
+
+.signup span:hover {
+  text-decoration: underline;
+}

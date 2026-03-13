@@ -1,0 +1,26 @@
+1. ------------------Register API-----------------------------
+
+    endpoint:- POST http://localhost:5000/api/auth/register
+
+    Body :- 
+        {
+            "name": "pritam",
+            "email": "pritam@gmail.com",
+            "password": "Pritam@456",
+            "role": "recruiter"
+        }
+    
+    response :-
+        {
+            "message": "User registered successfully",
+            "user": {
+                "name": "pritam",
+                "email": "pritam@gmail.com",
+                "password": "$2b$10$U14DXYqNELAzsxsi5Qm2huGXo0lUTSx.k1RKinB3O4XJ0O504pScO",
+                "role": "recruiter",
+                "skills": [],
+                "_id": "69b2c32c8602079d7488f9ee",
+                "createdAt": "2026-03-12T13:44:12.642Z",
+                "__v": 0
+            }
+        }

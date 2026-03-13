@@ -1,0 +1,1349 @@
+
+
+===== FILE: src\App.jsx =====
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Jobs from "./pages/Jobs";
+import RecommendedJobs from "./pages/RecommendedJobs";
+import StudentDashboard from "./dashboards/StudentDashboard";
+import UploadResume from "./pages/UploadResume";
+import MyApplications from "./pages/MyApplications";
+import RecruiterDashboard from "./dashboards/RecruiterDashboard";
+import PostJob from "./pages/PostJob";
+import MyJobs from "./pages/MyJobs";
+import JobApplicants from "./pages/JobApplicants";
+import AdminDashboard from "./dashboards/AdminDashboard";
+import AdminUsers from "./pages/AdminUsers";
+import AdminJobs from "./pages/AdminJobs";
+import AdminApplications from "./pages/AdminApplications";
+import ActivityLogs from "./pages/ActivityLogs";
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />
+
+        <Route path="/login" element={<Login />} />
+
+        <Route path="/register" element={<Register />} />
+
+        <Route path="/dashboard" element={<StudentDashboard />} />
+        <Route path="/jobs" element={<Jobs />} />
+        <Route path="/recommended" element={<RecommendedJobs />} />
+        <Route path="/upload-resume" element={<UploadResume />} />
+        <Route path="/applications" element={<MyApplications />} />
+        <Route path="/recruiter-dashboard" element={<RecruiterDashboard />} />
+        <Route path="/post-job" element={<PostJob />} />
+        <Route path="/my-jobs" element={<MyJobs />} />
+        <Route path="/job-applicants/:id" element={<JobApplicants />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/admin-users" element={<AdminUsers />} />
+        <Route path="/admin-jobs" element={<AdminJobs />} />
+        <Route path="/admin-applications" element={<AdminApplications />} />
+        <Route path="/activity-logs" element={<ActivityLogs />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
+
+
+===== FILE: src\components\Navbar.jsx =====
+
+
+
+===== FILE: src\dashboards\AdminDashboard.jsx =====
+
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import API from "../services/api";
+
+function AdminDashboard() {
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalStudents: 0,
+    totalRecruiters: 0,
+    totalJobs: 0,
+    totalApplications: 0,
+  });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await API.get("/admin/stats");
+
+        setStats(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1>Admin Dashboard</h1>
+
+      <div style={{ display: "flex", gap: "20px" }}>
+        <div style={{ border: "1px solid gray", padding: "20px" }}>
+          <h3>Total Users</h3>
+          <p>{stats.totalUsers}</p>
+        </div>
+
+        <div style={{ border: "1px solid gray", padding: "20px" }}>
+          <h3>Total Students</h3>
+          <p>{stats.totalStudents}</p>
+        </div>
+
+        <div style={{ border: "1px solid gray", padding: "20px" }}>
+          <h3>Total Recruiters</h3>
+          <p>{stats.totalRecruiters}</p>
+        </div>
+
+        <div style={{ border: "1px solid gray", padding: "20px" }}>
+          <h3>Total Jobs</h3>
+          <p>{stats.totalJobs}</p>
+        </div>
+
+        <div style={{ border: "1px solid gray", padding: "20px" }}>
+          <h3>Total Applications</h3>
+          <p>{stats.totalApplications}</p>
+        </div>
+      </div>
+
+      <Link to="/admin-users">
+        <button>View Users</button>
+      </Link>
+      <Link to="/admin-jobs">
+        <button>View Jobs</button>
+      </Link>
+      <Link to="/admin-applications">
+        <button>View Applications</button>
+      </Link>
+      <Link to="/activity-logs">
+        <button>Activity Logs</button>
+      </Link>
+    </div>
+  );
+}
+
+export default AdminDashboard;
+
+
+===== FILE: src\dashboards\RecruiterDashboard.jsx =====
+
+import { Link } from "react-router-dom";
+
+function RecruiterDashboard() {
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1>Recruiter Dashboard</h1>
+
+      <br />
+
+      <Link to="/post-job">
+        <button>Post New Job</button>
+      </Link>
+
+      <br />
+      <br />
+
+      <Link to="/my-jobs">
+        <button>View My Jobs</button>
+      </Link>
+    </div>
+  );
+}
+
+export default RecruiterDashboard;
+
+
+===== FILE: src\dashboards\StudentDashboard.jsx =====
+
+import { Link } from "react-router-dom";
+import "../styles/studentDashboard.css";
+
+function StudentDashboard() {
+  return (
+    <div className="dashboard">
+      {/* SIDEBAR */}
+
+      <div className="sidebar">
+        <h2 className="logo">HuntJobs</h2>
+
+        <ul>
+          <li className="active">Dashboard</li>
+
+          <li>
+            <Link to="/upload-resume">Upload Resume</Link>
+          </li>
+
+          <li>
+            <Link to="/recommended">Recommended Jobs</Link>
+          </li>
+
+          <li>
+            <Link to="/jobs">Browse Jobs</Link>
+          </li>
+
+          <li>
+            <Link to="/applications">My Applications</Link>
+          </li>
+        </ul>
+      </div>
+
+      {/* MAIN CONTENT */}
+
+      <div className="main-content">
+        <h1>Student Dashboard</h1>
+
+        <div className="cards">
+          <Link to="/upload-resume" className="card">
+            <h3>Upload Resume</h3>
+            <p>Add your resume to analyze skills</p>
+          </Link>
+
+          <Link to="/recommended" className="card">
+            <h3>Recommended Jobs</h3>
+            <p>AI matched jobs for you</p>
+          </Link>
+
+          <Link to="/jobs" className="card">
+            <h3>Browse Jobs</h3>
+            <p>Explore all available jobs</p>
+          </Link>
+
+          <Link to="/applications" className="card">
+            <h3>My Applications</h3>
+            <p>Track your applied jobs</p>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default StudentDashboard;
+
+
+===== FILE: src\index.css =====
+
+/* :root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+} */
+
+
+===== FILE: src\main.jsx =====
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+
+
+===== FILE: src\pages\ActivityLogs.jsx =====
+
+import { useEffect, useState } from "react";
+import API from "../services/api";
+
+function ActivityLogs() {
+  const [logs, setLogs] = useState([]);
+
+  useEffect(() => {
+    const fetchLogs = async () => {
+      try {
+        const res = await API.get("/admin/activity-logs");
+
+        setLogs(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchLogs();
+  }, []);
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>Activity Logs</h2>
+
+      {logs.map((log) => (
+        <div
+          key={log._id}
+          style={{ border: "1px solid gray", padding: "10px", margin: "10px" }}
+        >
+          <p>{log.action}</p>
+
+          <p>{new Date(log.createdAt).toLocaleString()}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default ActivityLogs;
+
+
+===== FILE: src\pages\AdminApplications.jsx =====
+
+import { useEffect, useState } from "react";
+import API from "../services/api";
+
+function AdminApplications() {
+  const [applications, setApplications] = useState([]);
+
+  useEffect(() => {
+    const fetchApplications = async () => {
+      try {
+        const res = await API.get("/admin/applications");
+
+        setApplications(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchApplications();
+  }, []);
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>All Applications</h2>
+
+      {applications.map((app) => (
+        <div
+          key={app._id}
+          style={{ border: "1px solid gray", margin: "10px", padding: "10px" }}
+        >
+          <h3>{app.student_id?.name}</h3>
+
+          <p>Job: {app.job_id?.title}</p>
+
+          <p>Status: {app.status}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default AdminApplications;
+
+
+===== FILE: src\pages\AdminJobs.jsx =====
+
+import { useEffect, useState } from "react";
+import API from "../services/api";
+
+function AdminJobs() {
+  const [jobs, setJobs] = useState([]);
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const res = await API.get("/admin/jobs");
+
+        setJobs(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchJobs();
+  }, []);
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>All Jobs</h2>
+
+      {jobs.map((job) => (
+        <div
+          key={job._id}
+          style={{ border: "1px solid gray", padding: "10px", margin: "10px" }}
+        >
+          <h3>{job.title}</h3>
+
+          <p>Company: {job.company}</p>
+
+          <p>Location: {job.location}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default AdminJobs;
+
+
+===== FILE: src\pages\AdminUsers.jsx =====
+
+import { useEffect, useState } from "react";
+import API from "../services/api";
+
+function AdminUsers() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await API.get("/admin/users");
+
+        setUsers(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>All Users</h2>
+
+      {users.map((user) => (
+        <div
+          key={user._id}
+          style={{ border: "1px solid gray", margin: "10px", padding: "10px" }}
+        >
+          <h3>{user.name}</h3>
+
+          <p>Email: {user.email}</p>
+
+          <p>Role: {user.role}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default AdminUsers;
+
+
+===== FILE: src\pages\JobApplicants.jsx =====
+
+import { useEffect, useState } from "react";
+import API from "../services/api";
+import { useParams } from "react-router-dom";
+
+function JobApplicants() {
+  const { id } = useParams();
+
+  const [applicants, setApplicants] = useState([]);
+
+  useEffect(() => {
+    const fetchApplicants = async () => {
+      try {
+        const res = await API.get(`/applications/job/${id}`);
+
+        setApplicants(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchApplicants();
+  }, [id]);
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>Applicants</h2>
+
+      {applicants.map((app) => (
+        <div
+          key={app._id}
+          style={{ border: "1px solid gray", padding: "10px", margin: "10px" }}
+        >
+          <h3>{app.student_id?.name}</h3>
+
+          <p>Email: {app.student_id?.email}</p>
+
+          <p>Match Score: {app.matchScore}%</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default JobApplicants;
+
+
+===== FILE: src\pages\JobDetails.jsx =====
+
+
+
+===== FILE: src\pages\Jobs.jsx =====
+
+import { useEffect, useState } from "react";
+import API from "../services/api";
+
+function Jobs() {
+  const [jobs, setJobs] = useState([]);
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const res = await API.get("/jobs");
+
+        setJobs(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchJobs();
+  }, []);
+
+  const applyJob = async (jobId) => {
+    try {
+      await API.post("/applications", {
+        job_id: jobId,
+      });
+
+      alert("Applied successfully!");
+    } catch (error) {
+      console.error(error);
+
+      alert("Already applied or error occurred");
+    }
+  };
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>Available Jobs</h2>
+
+      {jobs.map((job) => (
+        <div
+          key={job._id}
+          style={{ border: "1px solid gray", padding: "10px", margin: "10px" }}
+        >
+          <h3>{job.title}</h3>
+
+          <p>Company: {job.company}</p>
+
+          <p>Location: {job.location}</p>
+
+          <p>Salary: {job.salary}</p>
+
+          <button onClick={() => applyJob(job._id)}>Apply Job</button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default Jobs;
+
+
+===== FILE: src\pages\Login.jsx =====
+
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import API from "../services/api";
+import "../styles/login.css";
+import bg from "../assets/login.jpg";
+
+function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await API.post("/auth/login", { email, password });
+
+      const token = res.data.token;
+      const role = res.data.user.role;
+
+      localStorage.setItem("token", token);
+
+      if (role === "student") navigate("/dashboard");
+      if (role === "recruiter") navigate("/recruiter-dashboard");
+      if (role === "admin") navigate("/admin-dashboard");
+    } catch (err) {
+      console.error(err);
+      alert("Login failed");
+    }
+  };
+
+  return (
+    <div className="login-page">
+      {/* LEFT SIDE */}
+      <div className="login-left" style={{ backgroundImage: `url(${bg})` }}>
+        <div className="left-overlay"></div>
+      </div>
+
+      {/* RIGHT SIDE */}
+      <div className="login-right">
+        <div className="login-card">
+          <h2>Welcome Back!</h2>
+
+          <p className="subtitle">
+            Log in to start creating stunning videos with ease.
+          </p>
+
+          <form onSubmit={handleLogin}>
+            <label>Email</label>
+
+            <input
+              type="email"
+              placeholder="Input your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+
+            <label>Password</label>
+
+            <input
+              type="password"
+              placeholder="Input your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <button className="login-btn">Login</button>
+          </form>
+
+          <div className="divider">
+            <span>Or continue with</span>
+          </div>
+
+          <button className="google-btn">Continue with Google</button>
+
+          <p className="signup">
+            Don't have an account?
+            <span onClick={() => navigate("/register")}>Sign up here</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Login;
+
+
+===== FILE: src\pages\MyApplications.jsx =====
+
+import { useEffect, useState } from "react";
+import API from "../services/api";
+
+function MyApplications() {
+  const [applications, setApplications] = useState([]);
+
+  useEffect(() => {
+    const fetchApplications = async () => {
+      try {
+        const res = await API.get("/applications/user");
+        console.log(res.data);
+        setApplications(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchApplications();
+  }, []);
+
+  return (
+    <div>
+      <h2>My Applications</h2>
+
+      {applications.map((app) => (
+        <div
+          key={app._id}
+          style={{ border: "1px solid gray", padding: "10px", margin: "10px" }}
+        >
+          <h3>{app.job_id?.title}</h3>
+
+          <p>Company: {app.job_id?.company}</p>
+
+          <p>Status: {app.status}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default MyApplications;
+
+
+===== FILE: src\pages\MyJobs.jsx =====
+
+import { useEffect, useState } from "react";
+import API from "../services/api";
+import { Link } from "react-router-dom";
+
+function MyJobs() {
+  const [jobs, setJobs] = useState([]);
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const res = await API.get("/jobs");
+
+        setJobs(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchJobs();
+  }, []);
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>My Posted Jobs</h2>
+
+      {jobs.map((job) => (
+        <div
+          key={job._id}
+          style={{ border: "1px solid gray", margin: "10px", padding: "10px" }}
+        >
+          <h3>{job.title}</h3>
+
+          <p>{job.company}</p>
+
+          <Link to={`/job-applicants/${job._id}`}>
+            <button>View Applicants</button>
+          </Link>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default MyJobs;
+
+
+===== FILE: src\pages\PostJob.jsx =====
+
+import { useState } from "react";
+import API from "../services/api";
+
+function PostJob() {
+  const [title, setTitle] = useState("");
+  const [company, setCompany] = useState("");
+  const [description, setDescription] = useState("");
+  const [skills, setSkills] = useState("");
+  const [location, setLocation] = useState("");
+
+  const submitJob = async (e) => {
+    e.preventDefault();
+
+    try {
+      await API.post("/jobs", {
+        title,
+        company,
+        description,
+        skills_required: skills.split(","),
+        location,
+      });
+
+      alert("Job posted successfully");
+    } catch (error) {
+      console.error(error);
+
+      alert("Error posting job");
+    }
+  };
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>Post New Job</h2>
+
+      <form onSubmit={submitJob}>
+        <input
+          placeholder="Job Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+
+        <br />
+        <br />
+
+        <input
+          placeholder="Company"
+          value={company}
+          onChange={(e) => setCompany(e.target.value)}
+        />
+
+        <br />
+        <br />
+
+        <input
+          placeholder="Location"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+        />
+
+        <br />
+        <br />
+
+        <input
+          placeholder="Skills (comma separated)"
+          value={skills}
+          onChange={(e) => setSkills(e.target.value)}
+        />
+
+        <br />
+        <br />
+
+        <textarea
+          placeholder="Job Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+
+        <br />
+        <br />
+
+        <button type="submit">Post Job</button>
+      </form>
+    </div>
+  );
+}
+
+export default PostJob;
+
+
+===== FILE: src\pages\RecommendedJobs.jsx =====
+
+import { useEffect, useState } from "react";
+import API from "../services/api";
+
+function RecommendedJobs() {
+  const [jobs, setJobs] = useState([]);
+
+  useEffect(() => {
+    const fetchRecommendedJobs = async () => {
+      try {
+        const res = await API.get("/jobs/recommended");
+
+        setJobs(res.data);
+      } catch (error) {
+        console.error("Error fetching recommendations:", error);
+      }
+    };
+
+    fetchRecommendedJobs();
+  }, []);
+
+  return (
+    <div>
+      <h2>Recommended Jobs</h2>
+
+      {jobs.map((item) => (
+        <div
+          key={item.job._id}
+          style={{ border: "1px solid gray", padding: "10px", margin: "10px" }}
+        >
+          <h3>{item.job.title}</h3>
+
+          <p>Company: {item.job.company}</p>
+
+          <p>Location: {item.job.location}</p>
+
+          <p>Match Score: {item.matchScore}%</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default RecommendedJobs;
+
+
+===== FILE: src\pages\Register.jsx =====
+
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import API from "../services/api";
+import "../styles/login.css";
+import bg from "../assets/login.jpg";
+
+function Register() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("student");
+
+  const navigate = useNavigate();
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+
+    try {
+      await API.post("/auth/register", {
+        name,
+        email,
+        password,
+        role,
+      });
+
+      alert("Registration successful");
+
+      navigate("/login");
+    } catch (err) {
+      console.error(err);
+      alert("Registration failed");
+    }
+  };
+
+  return (
+    <div className="login-page">
+      {/* LEFT SIDE IMAGE */}
+      <div className="login-left" style={{ backgroundImage: `url(${bg})` }}>
+        <div className="left-overlay"></div>
+      </div>
+
+      {/* RIGHT SIDE FORM */}
+      <div className="login-right">
+        <div className="login-card">
+          <h2>Create Account</h2>
+
+          <p className="subtitle">Register To Start</p>
+
+          <form onSubmit={handleRegister}>
+            <label>Name</label>
+            <input
+              type="text"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+
+            <label>Email</label>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+
+            <label>Password</label>
+            <input
+              type="password"
+              placeholder="Create password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <label>Role</label>
+            <select value={role} onChange={(e) => setRole(e.target.value)}>
+              <option value="student">Student</option>
+              <option value="recruiter">Recruiter</option>
+            </select>
+
+            <button className="login-btn">Register</button>
+          </form>
+
+          <p className="signup">
+            Already have an account?{" "}
+            <span onClick={() => navigate("/login")}>Login</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Register;
+
+
+===== FILE: src\pages\UploadResume.jsx =====
+
+import { useState } from "react";
+import API from "../services/api";
+
+function UploadResume() {
+  const [file, setFile] = useState(null);
+  const [skills, setSkills] = useState([]);
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setFile(e.dataTransfer.files[0]);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const uploadResume = async () => {
+    if (!file) {
+      alert("Please select a file");
+      return;
+    }
+
+    const formData = new FormData();
+
+    formData.append("resume", file);
+
+    try {
+      const res = await API.post("/resume/upload", formData);
+
+      setSkills(res.data.detectedSkills);
+
+      alert("Resume uploaded successfully");
+    } catch (error) {
+      console.error(error);
+      alert("Upload failed");
+    }
+  };
+
+  return (
+    <div style={{ padding: "30px" }}>
+      <h2>Upload Resume</h2>
+
+      <div
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        style={{
+          border: "2px dashed gray",
+          padding: "40px",
+          textAlign: "center",
+          marginBottom: "20px",
+        }}
+      >
+        <p>Drag & Drop your Resume here</p>
+
+        <input type="file" accept=".pdf" onChange={handleFileChange} />
+      </div>
+
+      <button onClick={uploadResume}>Upload Resume</button>
+
+      <br />
+      <br />
+
+      {skills.length > 0 && (
+        <div>
+          <h3>Detected Skills</h3>
+
+          <ul>
+            {skills.map((skill, index) => (
+              <li key={index}>{skill}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default UploadResume;
+
+
+===== FILE: src\services\api.js =====
+
+import axios from "axios";
+
+const API = axios.create({
+  baseURL: "http://localhost:5000/api",
+});
+
+API.interceptors.request.use((req) => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    req.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return req;
+});
+
+export default API;
+
+
+===== FILE: src\styles\login.css =====
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial;
+}
+
+.login-page {
+  display: flex;
+  height: 100vh;
+}
+
+/* LEFT SIDE */
+
+.login-left {
+  width: 60%;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: white;
+}
+
+.left-overlay {
+  position: absolute;
+  bottom: 80px;
+  left: 60px;
+  max-width: 500px;
+}
+
+.left-overlay h1 {
+  font-size: 40px;
+  margin-bottom: 15px;
+}
+
+.left-overlay p {
+  font-size: 16px;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+/* RIGHT SIDE */
+
+.login-right {
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f4f4f4;
+}
+
+.login-card {
+  width: 380px;
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.login-card select {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0 15px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.login-card h2 {
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.login-card label {
+  font-size: 14px;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0 15px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.divider {
+  text-align: center;
+  margin: 20px 0;
+  color: #888;
+}
+
+.google-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+}
+
+.signup {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.signup span {
+  font-weight: bold;
+  cursor: pointer;
+  color: #2563eb;
+}
+
+.signup span:hover {
+  text-decoration: underline;
+}
+
+
+===== FILE: src\styles\studentDashboard.css =====
+
+.dashboard {
+  display: flex;
+  height: 100vh;
+  background: #fefefe;
+  font-family: Arial;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+  width: 240px;
+  background: #f2f2f2;
+  padding: 30px;
+}
+
+.logo {
+  color: #1e3566;
+  margin-bottom: 40px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin-bottom: 20px;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #000;
+}
+
+.sidebar .active {
+  color: #1e3566;
+  font-weight: bold;
+}
+
+/* MAIN CONTENT */
+
+.main-content {
+  flex: 1;
+  padding: 40px;
+}
+
+.main-content h1 {
+  margin-bottom: 30px;
+}
+
+/* DASHBOARD CARDS */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.card {
+  background: #f2f2f2;
+  padding: 25px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #000;
+  transition: 0.2s;
+}
+
+.card:hover {
+  border: 2px solid #a5c3f2;
+  transform: translateY(-3px);
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  color: #1e3566;
+}
