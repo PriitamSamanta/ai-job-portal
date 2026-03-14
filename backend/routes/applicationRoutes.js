@@ -9,6 +9,7 @@ const {
   getApplicantsByJob,
   getRecruiterDashboard,
   updateApplicationStatus,
+  getRecruiterAnalytics,
 } = require("../controllers/applicationController");
 const authMiddleware = require("../middleware/authMiddleware");
 
@@ -27,6 +28,13 @@ router.put(
   authMiddleware,
   requireRecruiter,
   updateApplicationStatus,
+);
+
+router.get(
+  "/recruiter/analytics",
+  authMiddleware,
+  requireRecruiter,
+  getRecruiterAnalytics,
 );
 
 module.exports = router;

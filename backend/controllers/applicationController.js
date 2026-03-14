@@ -149,3 +149,46 @@ exports.updateApplicationStatus = async (req, res) => {
     });
   }
 };
+
+exports.getRecruiterAnalytics = async (req, res) => {
+  try {
+    const recruiter_id = req.userId;
+
+    const jobs = await Job.find({ recruiter_id });
+
+    const jobIds = jobs.map((job) => job._id);
+
+    const applications = await Application.find({
+      job_id: { $in: jobIds },
+    });
+
+    const totalApplicants = applications.length;
+
+    let topScore = 0;
+    let totalScore = 0;
+
+    applications.forEach((app) => {
+      totalScore += app.resume_score;
+
+      if (app.resume_score > topScore) {
+        topScore = app.resume_score;
+      }
+    });
+
+    const avgScore =
+      totalApplicants > 0 ? Math.round(totalScore / totalApplicants) : 0;
+
+    res.json({
+      totalJobs: jobs.length,
+      totalApplicants,
+      topScore,
+      avgScore,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
