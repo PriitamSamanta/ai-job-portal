@@ -4,6 +4,24 @@ import API from "../services/api";
 function Jobs() {
   const [jobs, setJobs] = useState([]);
   const [analysis, setAnalysis] = useState(null);
+  const [search, setSearch] = useState("");
+  const [locationFilter, setLocationFilter] = useState("");
+  const [skillFilter, setSkillFilter] = useState("");
+
+  const filteredJobs = jobs.filter((job) => {
+    const matchTitle = job.title.toLowerCase().includes(search.toLowerCase());
+
+    const matchLocation = job.location
+      .toLowerCase()
+      .includes(locationFilter.toLowerCase());
+
+    const matchSkill = job.skills_required
+      .join(" ")
+      .toLowerCase()
+      .includes(skillFilter.toLowerCase());
+
+    return matchTitle && matchLocation && matchSkill;
+  });
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -34,9 +52,29 @@ function Jobs() {
 
   return (
     <div style={{ padding: "20px" }}>
+      <div style={{ marginBottom: "20px" }}>
+        <input
+          placeholder="Search job title..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+
+        <input
+          placeholder="Filter by location..."
+          value={locationFilter}
+          onChange={(e) => setLocationFilter(e.target.value)}
+        />
+
+        <input
+          placeholder="Filter by skill..."
+          value={skillFilter}
+          onChange={(e) => setSkillFilter(e.target.value)}
+        />
+      </div>
+
       <h2>Available Jobs</h2>
 
-      {jobs.map((job) => (
+      {filteredJobs.map((job) => (
         <div
           key={job._id}
           style={{ border: "1px solid gray", padding: "10px", margin: "10px" }}

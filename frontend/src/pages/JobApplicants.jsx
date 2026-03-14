@@ -37,7 +37,7 @@ function JobApplicants() {
     <div style={{ padding: "20px" }}>
       <h2>Applicants</h2>
 
-      {applicants.map((app) => (
+      {applicants.map((app, index) => (
         <div
           key={app._id}
           style={{ border: "1px solid gray", padding: "10px", margin: "10px" }}
@@ -47,6 +47,19 @@ function JobApplicants() {
           <p>Email: {app.student_id?.email}</p>
 
           <p>Status: {app.status}</p>
+
+          <h3>
+            Rank #{index + 1} — {app.student_id?.name}
+          </h3>
+          {index === 0 && (
+            <p style={{ color: "green", fontWeight: "bold" }}>
+              ⭐ Top Candidate
+            </p>
+          )}
+
+          <p>
+            Resume Score: <strong>{app.resume_score}%</strong>
+          </p>
 
           <button onClick={() => updateStatus(app._id, "shortlisted")}>
             Shortlist
