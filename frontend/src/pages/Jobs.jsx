@@ -118,6 +118,23 @@ function Jobs() {
               <li key={index}>{skill}</li>
             ))}
           </ul>
+
+          <h4>Suggested Skills To Learn</h4>
+
+          <ul>
+            {analysis.missingSkills.map((skill, index) => (
+              <li key={index}>
+                📚 Learn {skill}
+                <a
+                  href={`https://www.google.com/search?q=learn+${skill}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  (Resources)
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>

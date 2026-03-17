@@ -26,6 +26,10 @@ const jobSchema = new mongoose.Schema({
     required: true,
   },
 
+  // ✅ NEW FIELDS
+  latitude: { type: Number },
+  longitude: { type: Number },
+
   salary: {
     type: Number,
   },

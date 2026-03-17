@@ -27,6 +27,10 @@ function StudentDashboard() {
           <li>
             <Link to="/applications">My Applications</Link>
           </li>
+
+          <li>
+            <Link to="/jobs-map">Jobs Map</Link>
+          </li>
         </ul>
       </div>
 
