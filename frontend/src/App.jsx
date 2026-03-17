@@ -16,6 +16,7 @@ import AdminUsers from "./pages/AdminUsers";
 import AdminJobs from "./pages/AdminJobs";
 import AdminApplications from "./pages/AdminApplications";
 import ActivityLogs from "./pages/ActivityLogs";
+import JobsMap from "./pages/JobsMap";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
         <Route path="/admin-jobs" element={<AdminJobs />} />
         <Route path="/admin-applications" element={<AdminApplications />} />
         <Route path="/activity-logs" element={<ActivityLogs />} />
+        <Route path="/jobs-map" element={<JobsMap />} />
       </Routes>
     </BrowserRouter>
   );

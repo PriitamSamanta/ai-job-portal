@@ -12,6 +12,8 @@ exports.createJob = async (req, res) => {
       location,
       salary,
       experience_required,
+      latitude,
+      longitude
     } = req.body;
 
     const recruiter_id = req.userId;
@@ -24,6 +26,8 @@ exports.createJob = async (req, res) => {
       location,
       salary,
       experience_required,
+      latitude,
+      longitude,
       recruiter_id,
     });
 
