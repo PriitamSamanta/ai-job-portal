@@ -1,26 +1,153 @@
-1. ------------------Register API-----------------------------
+Base URL :- http://localhost:5000/api
 
-    endpoint:- POST http://localhost:5000/api/auth/register
+========================================================1.AUTH APIs :-==============================================
+1) Register User :- POST /auth/register
 
-    Body :- 
+    Body :-
         {
-            "name": "pritam",
-            "email": "pritam@gmail.com",
-            "password": "Pritam@456",
-            "role": "recruiter"
+            "name": "Arjun",
+            "email": "arjun@gmail.com",
+            "password": "123456",
+            "role": "student"
         }
-    
-    response :-
+
+    Response :-
         {
             "message": "User registered successfully",
             "user": {
-                "name": "pritam",
-                "email": "pritam@gmail.com",
-                "password": "$2b$10$U14DXYqNELAzsxsi5Qm2huGXo0lUTSx.k1RKinB3O4XJ0O504pScO",
-                "role": "recruiter",
-                "skills": [],
-                "_id": "69b2c32c8602079d7488f9ee",
-                "createdAt": "2026-03-12T13:44:12.642Z",
-                "__v": 0
+                "_id": "...",
+                "name": "Arjun",
+                "email": "arjun@gmail.com",
+                "role": "student"
             }
         }
+
+2) Login User :- POST /auth/login
+
+    Body :-
+        {
+            "email": "arjun@gmail.com",
+            "password": "123456"
+        }
+
+    Response :-
+        {
+            "token": "JWT_TOKEN",
+            "user": {
+                "_id": "...",
+                "name": "Arjun",
+                "role": "student"
+            }
+        }
+
+
+========================================================2.RESUME APIs :-==============================================
+
+1) Upload Resume :- POST /resume/upload
+
+    Headers:-
+        Authorization: Bearer TOKEN
+        Content-Type: multipart/form-data
+
+    Body :- resume: file.pdf
+
+    Response :-
+        {
+            "message": "Resume uploaded successfully",
+            "detectedSkills": ["react", "node", "mongodb"]
+        }
+
+
+========================================================3.JOBS APIs :-==============================================
+
+1) Create Job(Recruiter) :- POST /jobs
+
+    Headers:-
+        Authorization: Bearer TOKEN
+
+    Body :-
+        {
+            "title": "React Developer",
+            "company": "ABC Tech",
+            "description": "Frontend role",
+            "skills_required": ["react", "javascript"],
+            "location": "Ahmedabad",
+            "latitude": 23.0225,
+            "longitude": 72.5714,
+            "salary": 50000,
+            "experience_required": 1
+        }
+
+    Response :-
+        {
+            "message": "Job created successfully",
+            "job": { ...jobData }
+        }
+
+2) Get All Jobs :- GET /jobs
+    
+    Response :-
+        [
+            {
+                "_id": "...",
+                "title": "React Developer",
+                "company": "ABC Tech",
+                "location": "Ahmedabad",
+                "latitude": 23.0225,
+                "longitude": 72.5714
+            }
+        ]
+
+3) Get Jobs By ID :- GET /jobs/:id
+
+4) Recommended Jobs(AI) :- GET /jobs/recommended
+
+    Headers :- Authorization: Bearer TOKEN
+
+    Response :-
+        [
+            {
+                "job": { ...jobData },
+                "matchScore": 78
+            }
+        ]
+
+
+========================================================3.APPLICATION APIs :-==============================================
+
+
+1) Apply Job :- POST /application
+
+    Headers:-
+        Authorization: Bearer TOKEN
+
+    Body :-
+        {
+            "job_id": "JOB_ID"
+        }
+
+    Response :-
+        {
+            "message": "Application submitted successfully",
+            "resumeScore": 75,
+            "matchedSkills": ["react", "node"],
+            "missingSkills": ["docker", "aws"],
+            "application": { ... }
+        }
+
+
+2) Get User Applications :- GET /applications/user
+    
+    Response :-
+        [
+            {
+                "_id": "...",
+                "job_id": {
+                "title": "React Developer",
+                "company": "ABC Tech"
+                },
+                "status": "pending"
+            }
+        ]
+
+
