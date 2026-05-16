@@ -1,40 +1,59 @@
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+} from "react-leaflet";
+
 import API from "../services/api";
 
+import "../styles/map.css";
+
 function JobsMap() {
+
   const [jobs, setJobs] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
-  const [radius, setRadius] = useState(10); // default 10km
+  const [radius, setRadius] = useState(10);
 
-  // Fetch jobs
+  // FETCH JOBS
   useEffect(() => {
+
     const fetchJobs = async () => {
       try {
         const res = await API.get("/jobs");
+
         setJobs(res.data);
+
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchJobs();
+
   }, []);
 
-  // Get user location
+  // USER LOCATION
   useEffect(() => {
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        setUserLocation([position.coords.latitude, position.coords.longitude]);
+        setUserLocation([
+          position.coords.latitude,
+          position.coords.longitude,
+        ]);
       },
       (error) => {
-        console.error("Location error:", error);
-      },
+        console.error(error);
+      }
     );
+
   }, []);
 
-  // Distance calculation (Haversine)
+  // DISTANCE
   function getDistance(lat1, lon1, lat2, lon2) {
+
     const R = 6371;
 
     const dLat = (lat2 - lat1) * (Math.PI / 180);
@@ -47,72 +66,151 @@ function JobsMap() {
         Math.sin(dLon / 2) *
         Math.sin(dLon / 2);
 
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const c =
+      2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
     return R * c;
   }
 
-  // Filter nearby jobs
+  // FILTER JOBS
   const nearbyJobs = jobs.filter((job) => {
-    if (!userLocation || !job.latitude || !job.longitude) return false;
+
+    if (
+      !userLocation ||
+      !job.latitude ||
+      !job.longitude
+    ) {
+      return false;
+    }
 
     const distance = getDistance(
       userLocation[0],
       userLocation[1],
       job.latitude,
-      job.longitude,
+      job.longitude
     );
 
     return distance <= radius;
   });
 
   return (
-    <div style={{ height: "100vh", width: "100%" }}>
-      {/* 🔽 Radius Selector */}
-      <div style={{ padding: "10px", background: "#fff" }}>
-        <label>Select Distance: </label>
+    <div className="map-page">
 
-        <select
-          value={radius}
-          onChange={(e) => setRadius(Number(e.target.value))}
-        >
-          <option value={5}>5 km</option>
-          <option value={10}>10 km</option>
-          <option value={20}>20 km</option>
-          <option value={50}>50 km</option>
-        </select>
+      {/* SIDEBAR */}
+      <div className="map-sidebar">
+
+        <h2>Nearby Jobs</h2>
+
+        <p>
+          Discover opportunities around your location
+        </p>
+
+        {/* FILTER */}
+        <div className="map-filter">
+
+          <select
+            value={radius}
+            onChange={(e) =>
+              setRadius(Number(e.target.value))
+            }
+          >
+            <option value={5}>5 km</option>
+            <option value={10}>10 km</option>
+            <option value={20}>20 km</option>
+            <option value={50}>50 km</option>
+          </select>
+
+        </div>
+
+        {/* JOB LIST */}
+        <div className="map-job-list">
+
+          {nearbyJobs.map((job) => {
+
+            const distance = getDistance(
+              userLocation[0],
+              userLocation[1],
+              job.latitude,
+              job.longitude
+            );
+
+            return (
+              <div
+                className="map-job-card"
+                key={job._id}
+              >
+
+                <h3>{job.title}</h3>
+
+                <p className="map-job-company">
+                  {job.company}
+                </p>
+
+                <p>
+                  📍 {job.location}
+                </p>
+
+                <span className="map-distance">
+                  {distance.toFixed(1)} km away
+                </span>
+
+              </div>
+            );
+          })}
+
+        </div>
       </div>
 
-      {/* 🗺️ Map */}
-      <MapContainer
-        center={userLocation || [23.0225, 72.5714]}
-        zoom={10}
-        style={{ height: "90%", width: "100%" }}
-      >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      {/* MAP */}
+      <div className="map-container-wrapper">
 
-        {/* 👤 User Marker */}
-        {userLocation && (
-          <Marker position={userLocation}>
-            <Popup>You are here</Popup>
-          </Marker>
-        )}
+        <MapContainer
+          center={userLocation || [23.0225, 72.5714]}
+          zoom={10}
+        >
 
-        {/* 📍 Job Markers */}
-        {nearbyJobs.map((job) => (
-          <Marker key={job._id} position={[job.latitude, job.longitude]}>
-            <Popup>
-              <h3>{job.title}</h3>
-              <p>{job.company}</p>
-              <p>{job.location}</p>
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
 
-              <button onClick={() => alert(`Apply for ${job.title}`)}>
-                Apply
-              </button>
-            </Popup>
-          </Marker>
-        ))}
-      </MapContainer>
+          {/* USER */}
+          {userLocation && (
+            <Marker position={userLocation}>
+              <Popup>
+                You are here
+              </Popup>
+            </Marker>
+          )}
+
+          {/* JOBS */}
+          {nearbyJobs.map((job) => (
+            <Marker
+              key={job._id}
+              position={[
+                job.latitude,
+                job.longitude,
+              ]}
+            >
+
+              <Popup>
+
+                <h3>{job.title}</h3>
+
+                <p>{job.company}</p>
+
+                <p>{job.location}</p>
+
+                <button>
+                  Apply
+                </button>
+
+              </Popup>
+
+            </Marker>
+          ))}
+
+        </MapContainer>
+      </div>
     </div>
   );
 }

@@ -1,80 +1,148 @@
 import { useState } from "react";
+
 import API from "../services/api";
 
+import "../styles/uploadResume.css";
+
 function UploadResume() {
-  const [file, setFile] = useState(null);
+
+  const [resume, setResume] = useState(null);
+
   const [skills, setSkills] = useState([]);
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
+  const [loading, setLoading] = useState(false);
 
-  const handleDrop = (e) => {
-    e.preventDefault();
-    setFile(e.dataTransfer.files[0]);
-  };
+  // UPLOAD
+  const handleUpload = async () => {
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const uploadResume = async () => {
-    if (!file) {
-      alert("Please select a file");
+    if (!resume) {
+      alert("Please select a resume");
       return;
     }
 
-    const formData = new FormData();
-
-    formData.append("resume", file);
-
     try {
-      const res = await API.post("/resume/upload", formData);
 
-      setSkills(res.data.detectedSkills);
+      setLoading(true);
 
-      alert("Resume uploaded successfully");
+      const formData = new FormData();
+
+      formData.append("resume", resume);
+
+      const res = await API.post(
+        "/resume/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type":
+              "multipart/form-data",
+          },
+        }
+      );
+
+      setSkills(res.data.detectedSkills || []);
+
+      setLoading(false);
+
     } catch (error) {
+
       console.error(error);
+
+      setLoading(false);
+
       alert("Upload failed");
     }
   };
 
   return (
-    <div style={{ padding: "30px" }}>
-      <h2>Upload Resume</h2>
+    <div className="upload-page">
 
-      <div
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        style={{
-          border: "2px dashed gray",
-          padding: "40px",
-          textAlign: "center",
-          marginBottom: "20px",
-        }}
-      >
-        <p>Drag & Drop your Resume here</p>
+      <div className="upload-card">
 
-        <input type="file" accept=".pdf" onChange={handleFileChange} />
-      </div>
+        {/* HEADER */}
+        <div className="upload-header">
 
-      <button onClick={uploadResume}>Upload Resume</button>
+          <span className="ai-badge">
+            AI Resume Analyzer
+          </span>
 
-      <br />
-      <br />
+          <h1>Upload Your Resume</h1>
 
-      {skills.length > 0 && (
-        <div>
-          <h3>Detected Skills</h3>
+          <p>
+            Let AI analyze your resume and
+            detect skills automatically
+          </p>
 
-          <ul>
-            {skills.map((skill, index) => (
-              <li key={index}>{skill}</li>
-            ))}
-          </ul>
         </div>
-      )}
+
+        {/* DROPZONE */}
+        <label className="upload-dropzone">
+
+          <input
+            type="file"
+            accept=".pdf"
+            onChange={(e) =>
+              setResume(e.target.files[0])
+            }
+          />
+
+          <h2>
+            Drag & Drop Resume
+          </h2>
+
+          <p>
+            or click to browse PDF file
+          </p>
+
+          {resume && (
+            <p>
+              Selected File:
+              <strong> {resume.name}</strong>
+            </p>
+          )}
+
+        </label>
+
+        {/* BUTTON */}
+        <button
+          className="upload-btn"
+          onClick={handleUpload}
+        >
+
+          {loading
+            ? "Analyzing Resume..."
+            : "Upload & Analyze"}
+
+        </button>
+
+        {/* ANALYSIS */}
+        {skills.length > 0 && (
+
+          <div className="analysis-card">
+
+            <h2>
+              Detected Skills
+            </h2>
+
+            <p>
+              AI successfully analyzed your resume
+            </p>
+
+            <div className="skills-container">
+
+              {skills.map((skill, index) => (
+                <span
+                  className="skill-tag"
+                  key={index}
+                >
+                  {skill}
+                </span>
+              ))}
+
+            </div>
+          </div>
+        )}
+
+      </div>
     </div>
   );
 }

@@ -1,0 +1,159 @@
+body {
+    background: #f5f6f8;
+    font-family: Arial, sans-serif;
+}
+
+.jobs-page {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.jobs-sidebar {
+    width: 240px;
+    background: white;
+    padding: 30px 20px;
+    border-right: 1px solid #e5e7eb;
+}
+
+.jobs-logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    color: #111827;
+}
+
+.jobs-sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.jobs-sidebar li {
+    margin-bottom: 20px;
+}
+
+.jobs-sidebar a {
+    text-decoration: none;
+    color: #4b5563;
+    font-weight: 500;
+}
+
+.jobs-sidebar a:hover {
+    color: #111827;
+}
+
+/* MAIN CONTENT */
+
+.jobs-content {
+    flex: 1;
+    padding: 30px;
+}
+
+/* TOPBAR */
+
+.jobs-topbar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.jobs-search {
+    width: 300px;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    outline: none;
+}
+
+/* FILTERS */
+
+.jobs-filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.jobs-filters input {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+/* JOB GRID */
+
+.jobs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+/* JOB CARD */
+
+.job-card {
+    background: white;
+    border-radius: 18px;
+    padding: 20px;
+    border: 1px solid #e5e7eb;
+    transition: 0.2s ease;
+}
+
+.job-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.job-company {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.job-location {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.job-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.skill-tag {
+    background: #eef2ff;
+    color: #3730a3;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.job-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.apply-btn {
+    background: #111827;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.apply-btn:hover {
+    background: #000;
+}
+
+.match-score {
+    background: #dcfce7;
+    color: #166534;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+}

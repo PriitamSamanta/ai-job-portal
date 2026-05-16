@@ -1,27 +1,14 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import API from "../services/api";
+import "../styles/jobs.css";
 
 function Jobs() {
   const [jobs, setJobs] = useState([]);
-  const [analysis, setAnalysis] = useState(null);
+
   const [search, setSearch] = useState("");
   const [locationFilter, setLocationFilter] = useState("");
   const [skillFilter, setSkillFilter] = useState("");
-
-  const filteredJobs = jobs.filter((job) => {
-    const matchTitle = job.title.toLowerCase().includes(search.toLowerCase());
-
-    const matchLocation = job.location
-      .toLowerCase()
-      .includes(locationFilter.toLowerCase());
-
-    const matchSkill = job.skills_required
-      .join(" ")
-      .toLowerCase()
-      .includes(skillFilter.toLowerCase());
-
-    return matchTitle && matchLocation && matchSkill;
-  });
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -37,106 +24,147 @@ function Jobs() {
     fetchJobs();
   }, []);
 
+  // APPLY JOB
   const applyJob = async (jobId) => {
     try {
-      const res = await API.post("/applications", {
+      await API.post("/applications", {
         job_id: jobId,
       });
 
-      setAnalysis(res.data);
+      alert("Applied Successfully!");
     } catch (error) {
       console.error(error);
+
       alert("Already applied or error occurred");
     }
   };
 
+  // FILTER JOBS
+  const filteredJobs = jobs.filter((job) => {
+    const matchTitle = job.title
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+    const matchLocation = job.location
+      .toLowerCase()
+      .includes(locationFilter.toLowerCase());
+
+    const matchSkill = job.skills_required
+      .join(" ")
+      .toLowerCase()
+      .includes(skillFilter.toLowerCase());
+
+    return matchTitle && matchLocation && matchSkill;
+  });
+
   return (
-    <div style={{ padding: "20px" }}>
-      <div style={{ marginBottom: "20px" }}>
-        <input
-          placeholder="Search job title..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+    <div className="jobs-page">
 
-        <input
-          placeholder="Filter by location..."
-          value={locationFilter}
-          onChange={(e) => setLocationFilter(e.target.value)}
-        />
+      {/* SIDEBAR */}
+      <div className="jobs-sidebar">
+        <h2 className="jobs-logo">HireAI</h2>
 
-        <input
-          placeholder="Filter by skill..."
-          value={skillFilter}
-          onChange={(e) => setSkillFilter(e.target.value)}
-        />
+        <ul>
+          <li>
+            <Link to="/dashboard">Dashboard</Link>
+          </li>
+
+          <li>
+            <Link to="/recommended">Recommended Jobs</Link>
+          </li>
+
+          <li>
+            <Link to="/jobs">Browse Jobs</Link>
+          </li>
+
+          <li>
+            <Link to="/jobs-map">Jobs Map</Link>
+          </li>
+
+          <li>
+            <Link to="/applications">My Applications</Link>
+          </li>
+        </ul>
       </div>
 
-      <h2>Available Jobs</h2>
+      {/* MAIN CONTENT */}
+      <div className="jobs-content">
 
-      {filteredJobs.map((job) => (
-        <div
-          key={job._id}
-          style={{ border: "1px solid gray", padding: "10px", margin: "10px" }}
-        >
-          <h3>{job.title}</h3>
+        {/* TOPBAR */}
+        <div className="jobs-topbar">
+          <div>
+            <h1>Browse Jobs</h1>
+            <p>Find your next opportunity</p>
+          </div>
 
-          <p>Company: {job.company}</p>
-
-          <p>Location: {job.location}</p>
-
-          <p>Salary: {job.salary}</p>
-
-          <button onClick={() => applyJob(job._id)}>Apply Job</button>
+          <input
+            className="jobs-search"
+            placeholder="Search jobs..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
-      ))}
 
-      {analysis && (
-        <div
-          style={{
-            border: "2px solid green",
-            padding: "20px",
-            marginTop: "20px",
-          }}
-        >
-          <h3>Resume Analysis</h3>
+        {/* FILTERS */}
+        <div className="jobs-filters">
 
-          <p>
-            <strong>Resume Score:</strong> {analysis.resumeScore}%
-          </p>
+          <input
+            placeholder="Filter by location"
+            value={locationFilter}
+            onChange={(e) => setLocationFilter(e.target.value)}
+          />
 
-          <h4>Matched Skills</h4>
-          <ul>
-            {analysis.matchedSkills.map((skill, index) => (
-              <li key={index}>{skill}</li>
-            ))}
-          </ul>
+          <input
+            placeholder="Filter by skill"
+            value={skillFilter}
+            onChange={(e) => setSkillFilter(e.target.value)}
+          />
+        </div>
 
-          <h4>Missing Skills</h4>
-          <ul>
-            {analysis.missingSkills.map((skill, index) => (
-              <li key={index}>{skill}</li>
-            ))}
-          </ul>
+        {/* JOB CARDS */}
+        <div className="jobs-grid">
 
-          <h4>Suggested Skills To Learn</h4>
+          {filteredJobs.map((job) => (
+            <div className="job-card" key={job._id}>
 
-          <ul>
-            {analysis.missingSkills.map((skill, index) => (
-              <li key={index}>
-                📚 Learn {skill}
-                <a
-                  href={`https://www.google.com/search?q=learn+${skill}`}
-                  target="_blank"
-                  rel="noreferrer"
+              <h2>{job.title}</h2>
+
+              <p className="job-company">
+                {job.company}
+              </p>
+
+              <p className="job-location">
+                📍 {job.location}
+              </p>
+
+              {/* SKILLS */}
+              <div className="job-skills">
+                {job.skills_required.map((skill, index) => (
+                  <span className="skill-tag" key={index}>
+                    {skill}
+                  </span>
+                ))}
+              </div>
+
+              {/* FOOTER */}
+              <div className="job-footer">
+
+                <span className="match-score">
+                  AI Match
+                </span>
+
+                <button
+                  className="apply-btn"
+                  onClick={() => applyJob(job._id)}
                 >
-                  (Resources)
-                </a>
-              </li>
-            ))}
-          </ul>
+                  Apply
+                </button>
+
+              </div>
+            </div>
+          ))}
         </div>
-      )}
+      </div>
     </div>
   );
 }

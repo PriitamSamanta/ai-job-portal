@@ -1,23 +1,20 @@
 import { Link } from "react-router-dom";
-import "../styles/studentDashboard.css";
+import "../styles/dashboard.css";
 
 function StudentDashboard() {
   return (
-    <div className="dashboard">
-      {/* SIDEBAR */}
+    <div className="dashboard-page">
 
-      <div className="sidebar">
-        <h2 className="logo">HuntJobs</h2>
+      {/* SIDEBAR */}
+      <div className="dashboard-sidebar">
+
+        <h2 className="dashboard-logo">
+          HireAI
+        </h2>
 
         <ul>
-          <li className="active">Dashboard</li>
-
           <li>
-            <Link to="/upload-resume">Upload Resume</Link>
-          </li>
-
-          <li>
-            <Link to="/recommended">Recommended Jobs</Link>
+            <Link to="/dashboard">Dashboard</Link>
           </li>
 
           <li>
@@ -25,40 +22,95 @@ function StudentDashboard() {
           </li>
 
           <li>
-            <Link to="/applications">My Applications</Link>
+            <Link to="/recommended">Recommended Jobs</Link>
           </li>
 
           <li>
             <Link to="/jobs-map">Jobs Map</Link>
           </li>
+
+          <li>
+            <Link to="/upload-resume">Upload Resume</Link>
+          </li>
+
+          <li>
+            <Link to="/applications">My Applications</Link>
+          </li>
         </ul>
       </div>
 
       {/* MAIN CONTENT */}
+      <div className="dashboard-content">
 
-      <div className="main-content">
-        <h1>Student Dashboard</h1>
+        {/* TOPBAR */}
+        <div className="dashboard-topbar">
 
-        <div className="cards">
-          <Link to="/upload-resume" className="card">
-            <h3>Upload Resume</h3>
-            <p>Add your resume to analyze skills</p>
-          </Link>
+          <div className="dashboard-title">
+            <h1>Student Dashboard</h1>
+            <p>Track jobs, applications, and AI recommendations</p>
+          </div>
 
-          <Link to="/recommended" className="card">
+          <span className="ai-badge">
+            AI Powered
+          </span>
+        </div>
+
+        {/* STATS */}
+        <div className="stats-grid">
+
+          <div className="stat-card">
+            <h3>Applications</h3>
+            <p>12</p>
+          </div>
+
+          <div className="stat-card">
             <h3>Recommended Jobs</h3>
-            <p>AI matched jobs for you</p>
+            <p>8</p>
+          </div>
+
+          <div className="stat-card">
+            <h3>Resume Score</h3>
+            <p>78%</p>
+          </div>
+
+          <div className="stat-card">
+            <h3>Nearby Jobs</h3>
+            <p>15</p>
+          </div>
+
+        </div>
+
+        {/* ACTIONS */}
+        <div className="action-grid">
+
+          <Link to="/upload-resume" className="action-card">
+            <h2>Upload Resume</h2>
+            <p>
+              Upload your resume and let AI analyze your skills.
+            </p>
           </Link>
 
-          <Link to="/jobs" className="card">
-            <h3>Browse Jobs</h3>
-            <p>Explore all available jobs</p>
+          <Link to="/recommended" className="action-card">
+            <h2>AI Recommended Jobs</h2>
+            <p>
+              Discover jobs matched with your skills and profile.
+            </p>
           </Link>
 
-          <Link to="/applications" className="card">
-            <h3>My Applications</h3>
-            <p>Track your applied jobs</p>
+          <Link to="/jobs" className="action-card">
+            <h2>Browse Jobs</h2>
+            <p>
+              Search and apply for the latest opportunities.
+            </p>
           </Link>
+
+          <Link to="/jobs-map" className="action-card">
+            <h2>Nearby Jobs Map</h2>
+            <p>
+              Explore jobs near your location using interactive maps.
+            </p>
+          </Link>
+
         </div>
       </div>
     </div>
