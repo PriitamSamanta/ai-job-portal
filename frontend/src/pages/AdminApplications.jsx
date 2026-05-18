@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
 
+
 function AdminApplications() {
   const [applications, setApplications] = useState([]);
 
@@ -19,21 +20,56 @@ function AdminApplications() {
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>All Applications</h2>
+    <div className="admin-page-content">
 
-      {applications.map((app) => (
-        <div
-          key={app._id}
-          style={{ border: "1px solid gray", margin: "10px", padding: "10px" }}
-        >
-          <h3>{app.student_id?.name}</h3>
+      <div className="admin-page-header">
+        <h1>Applications</h1>
 
-          <p>Job: {app.job_id?.title}</p>
+        <p>
+          Monitor all job applications
+        </p>
+      </div>
 
-          <p>Status: {app.status}</p>
-        </div>
-      ))}
+      <div className="admin-list">
+
+        {applications.map((app) => (
+          <div
+            className="admin-row-card"
+            key={app._id}
+          >
+
+            <div className="admin-row-left">
+
+              <h2>
+                {app.student_id?.name || "Unknown User"}
+              </h2>
+
+              <p>
+                {app.student_id?.email || "No Email"}
+              </p>
+
+              <p>
+                Applied for:
+                {" "}
+                {app.job_id?.title || "No Job"}
+              </p>
+
+            </div>
+
+            <div className="admin-row-right">
+
+              <div
+                className={`admin-badge ${app.status}`}
+              >
+                {app.status}
+              </div>
+
+            </div>
+
+          </div>
+        ))}
+
+      </div>
     </div>
   );
 }

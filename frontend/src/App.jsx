@@ -89,6 +89,11 @@ function App() {
             element={<MyJobs />}
           />
 
+          <Route
+  path="/job-applicants/:jobId"
+  element={<JobApplicants />}
+/>
+
         </Route>
 
         {/* ADMIN */}

@@ -6,48 +6,31 @@ import "../styles/uploadResume.css";
 
 function UploadResume() {
 
-  const [resume, setResume] = useState(null);
+  const [file, setFile] = useState(null);
 
-  const [skills, setSkills] = useState([]);
-
-  const [loading, setLoading] = useState(false);
-
-  // UPLOAD
   const handleUpload = async () => {
 
-    if (!resume) {
-      alert("Please select a resume");
+    if (!file) {
+      alert("Please select a PDF");
       return;
     }
 
     try {
 
-      setLoading(true);
-
       const formData = new FormData();
 
-      formData.append("resume", resume);
+      formData.append("resume", file);
 
-      const res = await API.post(
+      await API.post(
         "/resume/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type":
-              "multipart/form-data",
-          },
-        }
+        formData
       );
 
-      setSkills(res.data.detectedSkills || []);
-
-      setLoading(false);
+      alert("Resume uploaded successfully");
 
     } catch (error) {
 
       console.error(error);
-
-      setLoading(false);
 
       alert("Upload failed");
     }
@@ -58,89 +41,57 @@ function UploadResume() {
 
       <div className="upload-card">
 
-        {/* HEADER */}
-        <div className="upload-header">
-
-          <span className="ai-badge">
-            AI Resume Analyzer
-          </span>
-
-          <h1>Upload Your Resume</h1>
-
-          <p>
-            Let AI analyze your resume and
-            detect skills automatically
-          </p>
-
+        <div className="upload-badge">
+          AI Resume Analyzer
         </div>
+
+        <h1>Upload Your Resume</h1>
+
+        <p className="upload-subtitle">
+          Let AI analyze your resume
+          and detect skills automatically
+        </p>
 
         {/* DROPZONE */}
         <label className="upload-dropzone">
 
-          <input
-            type="file"
-            accept=".pdf"
-            onChange={(e) =>
-              setResume(e.target.files[0])
-            }
-          />
+          <div className="upload-icon">
+            📄
+          </div>
 
-          <h2>
-            Drag & Drop Resume
-          </h2>
+          <h2>Drag & Drop Resume</h2>
 
           <p>
             or click to browse PDF file
           </p>
 
-          {resume && (
-            <p>
-              Selected File:
-              <strong> {resume.name}</strong>
-            </p>
-          )}
+          <input
+            type="file"
+            accept=".pdf"
+            hidden
+            onChange={(e) =>
+              setFile(e.target.files[0])
+            }
+          />
 
         </label>
+
+        {/* FILE */}
+        {file && (
+          <div className="selected-file">
+            Selected:
+            {" "}
+            {file.name}
+          </div>
+        )}
 
         {/* BUTTON */}
         <button
           className="upload-btn"
           onClick={handleUpload}
         >
-
-          {loading
-            ? "Analyzing Resume..."
-            : "Upload & Analyze"}
-
+          Upload & Analyze
         </button>
-
-        {/* ANALYSIS */}
-        {skills.length > 0 && (
-
-          <div className="analysis-card">
-
-            <h2>
-              Detected Skills
-            </h2>
-
-            <p>
-              AI successfully analyzed your resume
-            </p>
-
-            <div className="skills-container">
-
-              {skills.map((skill, index) => (
-                <span
-                  className="skill-tag"
-                  key={index}
-                >
-                  {skill}
-                </span>
-              ))}
-
-            </div>
-          </div>
-        )}
 
       </div>
     </div>

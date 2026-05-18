@@ -1,42 +1,102 @@
 import { useEffect, useState } from "react";
+
+import { useNavigate } from "react-router-dom";
+
 import API from "../services/api";
-import { Link } from "react-router-dom";
+
+import "../styles/myJobs.css";
 
 function MyJobs() {
+
   const [jobs, setJobs] = useState([]);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
+
     const fetchJobs = async () => {
+
       try {
+
         const res = await API.get("/jobs");
 
         setJobs(res.data);
+
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchJobs();
+
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>My Posted Jobs</h2>
+    <div className="myjobs-page">
 
-      {jobs.map((job) => (
-        <div
-          key={job._id}
-          style={{ border: "1px solid gray", margin: "10px", padding: "10px" }}
-        >
-          <h3>{job.title}</h3>
+      {/* HEADER */}
+      <div className="myjobs-header">
 
-          <p>{job.company}</p>
+        <h1>My Posted Jobs</h1>
 
-          <Link to={`/job-applicants/${job._id}`}>
-            <button>View Applicants</button>
-          </Link>
-        </div>
-      ))}
+        <p>
+          Manage job postings and view applicants
+        </p>
+
+      </div>
+
+      {/* GRID */}
+      <div className="myjobs-grid">
+
+        {jobs.map((job) => (
+
+          <div
+            className="myjob-card"
+            key={job._id}
+          >
+
+            <h2>{job.title}</h2>
+
+            <p className="myjob-company">
+              {job.company}
+            </p>
+
+            <p className="myjob-location">
+              📍 {job.location}
+            </p>
+
+            {/* SKILLS */}
+            <div className="myjob-skills">
+
+              {job.skills_required?.map(
+                (skill, index) => (
+                  <span
+                    className="myjob-skill"
+                    key={index}
+                  >
+                    {skill}
+                  </span>
+                )
+              )}
+
+            </div>
+
+            {/* BUTTON */}
+            <button
+              className="view-btn"
+              onClick={() =>
+                navigate(
+                  `/job-applicants/${job._id}`
+                )
+              }
+            >
+              View Applicants
+            </button>
+
+          </div>
+        ))}
+
+      </div>
     </div>
   );
 }

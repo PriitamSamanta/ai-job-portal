@@ -19,19 +19,50 @@ function ActivityLogs() {
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Activity Logs</h2>
+    <div className="admin-page-content">
 
-      {logs.map((log) => (
-        <div
-          key={log._id}
-          style={{ border: "1px solid gray", padding: "10px", margin: "10px" }}
-        >
-          <p>{log.action}</p>
+      <div className="admin-page-header">
+        <h1>Activity Logs</h1>
 
-          <p>{new Date(log.createdAt).toLocaleString()}</p>
-        </div>
-      ))}
+        <p>
+          Track platform activities
+        </p>
+      </div>
+
+      <table className="activity-table">
+
+        <thead>
+          <tr>
+            <th>Action</th>
+            <th>User</th>
+            <th>Date & Time</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          {logs.map((log) => (
+            <tr key={log._id}>
+
+              <td>
+                {log.action}
+              </td>
+
+              <td>
+                {log.user_id?.name || "Unknown"}
+              </td>
+
+              <td>
+                {new Date(
+                  log.createdAt
+                ).toLocaleString()}
+              </td>
+
+            </tr>
+          ))}
+
+        </tbody>
+      </table>
     </div>
   );
 }
