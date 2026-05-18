@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import API from "../services/api";
 import "../styles/recruiter.css";
@@ -33,34 +33,6 @@ function RecruiterDashboard() {
 
   return (
     <div className="recruiter-page">
-
-      {/* SIDEBAR */}
-      <div className="recruiter-sidebar">
-
-        <h2 className="recruiter-logo">
-          HireAI
-        </h2>
-
-        <ul>
-          <li>
-            <Link to="/recruiter-dashboard">
-              Dashboard
-            </Link>
-          </li>
-
-          <li>
-            <Link to="/post-job">
-              Post Job
-            </Link>
-          </li>
-
-          <li>
-            <Link to="/my-jobs">
-              My Jobs
-            </Link>
-          </li>
-        </ul>
-      </div>
 
       {/* MAIN CONTENT */}
       <div className="recruiter-content">
@@ -109,7 +81,7 @@ function RecruiterDashboard() {
         {/* ACTION CARDS */}
         <div className="recruiter-actions">
 
-          <Link to="/post-job" className="recruiter-card">
+          <NavLink to="/post-job" className="recruiter-card">
 
             <h2>Post New Job</h2>
 
@@ -118,9 +90,9 @@ function RecruiterDashboard() {
               map-based location support.
             </p>
 
-          </Link>
+          </NavLink>
 
-          <Link to="/my-jobs" className="recruiter-card">
+          <NavLink to="/my-jobs" className="recruiter-card">
 
             <h2>Manage Jobs</h2>
 
@@ -129,7 +101,7 @@ function RecruiterDashboard() {
               rankings, and hiring status.
             </p>
 
-          </Link>
+          </NavLink>
 
         </div>
       </div>

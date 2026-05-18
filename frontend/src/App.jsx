@@ -1,5 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import StudentLayout from "./components/StudentLayout";
+import RecruiterLayout from "./components/RecruiterLayout";
+import AdminLayout from "./components/AdminLayout";
+
+
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Jobs from "./pages/Jobs";
@@ -18,6 +23,7 @@ import AdminApplications from "./pages/AdminApplications";
 import ActivityLogs from "./pages/ActivityLogs";
 import JobsMap from "./pages/JobsMap";
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -28,21 +34,93 @@ function App() {
 
         <Route path="/register" element={<Register />} />
 
-        <Route path="/dashboard" element={<StudentDashboard />} />
-        <Route path="/jobs" element={<Jobs />} />
-        <Route path="/recommended" element={<RecommendedJobs />} />
-        <Route path="/upload-resume" element={<UploadResume />} />
-        <Route path="/applications" element={<MyApplications />} />
-        <Route path="/recruiter-dashboard" element={<RecruiterDashboard />} />
-        <Route path="/post-job" element={<PostJob />} />
-        <Route path="/my-jobs" element={<MyJobs />} />
-        <Route path="/job-applicants/:id" element={<JobApplicants />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/admin-users" element={<AdminUsers />} />
-        <Route path="/admin-jobs" element={<AdminJobs />} />
-        <Route path="/admin-applications" element={<AdminApplications />} />
-        <Route path="/activity-logs" element={<ActivityLogs />} />
-        <Route path="/jobs-map" element={<JobsMap />} />
+        {/* STUDENT */}
+
+        <Route element={<StudentLayout />}>
+
+          <Route
+            path="/dashboard"
+            element={<StudentDashboard />}
+          />
+
+          <Route
+            path="/jobs"
+            element={<Jobs />}
+          />
+
+          <Route
+            path="/recommended"
+            element={<RecommendedJobs />}
+          />
+
+          <Route
+            path="/jobs-map"
+            element={<JobsMap />}
+          />
+
+          <Route
+            path="/upload-resume"
+            element={<UploadResume />}
+          />
+
+          <Route
+            path="/applications"
+            element={<MyApplications />}
+          />
+
+        </Route>
+
+        {/* RECRUITER */}
+
+        <Route element={<RecruiterLayout />}>
+
+          <Route
+            path="/recruiter-dashboard"
+            element={<RecruiterDashboard />}
+          />
+
+          <Route
+            path="/post-job"
+            element={<PostJob />}
+          />
+
+          <Route
+            path="/my-jobs"
+            element={<MyJobs />}
+          />
+
+        </Route>
+
+        {/* ADMIN */}
+
+        <Route element={<AdminLayout />}>
+
+          <Route
+            path="/admin-dashboard"
+            element={<AdminDashboard />}
+          />
+
+          <Route
+            path="/admin/users"
+            element={<AdminUsers />}
+          />
+
+          <Route
+            path="/admin/jobs"
+            element={<AdminJobs />}
+          />
+
+          <Route
+            path="/admin/applications"
+            element={<AdminApplications />}
+          />
+
+          <Route
+            path="/admin/activity-logs"
+            element={<ActivityLogs />}
+          />
+
+        </Route>
       </Routes>
     </BrowserRouter>
   );

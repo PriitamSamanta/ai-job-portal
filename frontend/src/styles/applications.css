@@ -40,7 +40,10 @@ body {
   border-radius: 20px;
   padding: 24px;
   border: 1px solid #e5e7eb;
-  transition: 0.2s ease;
+  transition:
+  transform 0.2s ease,
+  box-shadow 0.2s ease,
+  background 0.2s ease;
 }
 
 .application-card:hover {
@@ -129,4 +132,12 @@ body {
 .missing-tag {
   background: #fee2e2;
   color: #991b1b;
+}
+
+button {
+  transition: 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
 }
