@@ -1,75 +1,210 @@
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  useParams,
+} from "react-router-dom";
+
 import API from "../services/api";
-import { useParams } from "react-router-dom";
+
+import "../styles/jobApplicants.css";
 
 function JobApplicants() {
-  const { id } = useParams();
 
-  const [applicants, setApplicants] = useState([]);
+  const [applications, setApplications] =
+    useState([]);
 
+  const { jobId } = useParams();
+
+  // FETCH
   useEffect(() => {
-    const fetchApplicants = async () => {
-      try {
-        const res = await API.get(`/applications/job/${id}`);
 
-        setApplicants(res.data);
+    const fetchApplicants = async () => {
+
+      try {
+
+        const res = await API.get(
+          `/applications/job/${jobId}`
+        );
+
+        setApplications(res.data);
+
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchApplicants();
-  }, [id]);
 
-  const updateStatus = async (id, status) => {
+  }, [jobId]);
+
+  // UPDATE STATUS
+  const updateStatus = async (
+    applicationId,
+    status
+  ) => {
+
     try {
-      await API.put(`/applications/status/${id}`, { status });
 
-      alert("Status updated");
+      await API.put(
+        `/applications/status/${applicationId}`,
+        { status }
+      );
 
-      window.location.reload();
+      setApplications((prev) =>
+        prev.map((app) =>
+          app._id === applicationId
+            ? { ...app, status }
+            : app
+        )
+      );
+
     } catch (error) {
+
       console.error(error);
+
+      alert("Failed to update status");
     }
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Applicants</h2>
+    <div className="applicants-page">
 
-      {applicants.map((app, index) => (
-        <div
-          key={app._id}
-          style={{ border: "1px solid gray", padding: "10px", margin: "10px" }}
-        >
-          <h3>{app.student_id?.name}</h3>
+      {/* HEADER */}
+      <div className="applicants-header">
 
-          <p>Email: {app.student_id?.email}</p>
+        <h1>Job Applicants</h1>
 
-          <p>Status: {app.status}</p>
+        <p>
+          AI-ranked candidates for this job
+        </p>
 
-          <h3>
-            Rank #{index + 1} — {app.student_id?.name}
-          </h3>
-          {index === 0 && (
-            <p style={{ color: "green", fontWeight: "bold" }}>
-              ⭐ Top Candidate
+      </div>
+
+      {/* GRID */}
+      <div className="applicants-grid">
+
+        {applications.map((app) => (
+
+          <div
+            className="applicant-card"
+            key={app._id}
+          >
+
+            <h2 className="applicant-name">
+              {app.student_id?.name}
+            </h2>
+
+            <p className="applicant-email">
+              {app.student_id?.email}
             </p>
-          )}
 
-          <p>
-            Resume Score: <strong>{app.resume_score}%</strong>
-          </p>
+            {/* SCORE */}
+            <div className="score-section">
 
-          <button onClick={() => updateStatus(app._id, "shortlisted")}>
-            Shortlist
-          </button>
+              <h4>
+                Resume Score:
+                {" "}
+                {app.resume_score || 0}%
+              </h4>
 
-          <button onClick={() => updateStatus(app._id, "rejected")}>
-            Reject
-          </button>
-        </div>
-      ))}
+              <div className="score-bar">
+
+                <div
+                  className="score-fill"
+                  style={{
+                    width:
+                      `${app.resume_score || 0}%`,
+                  }}
+                />
+
+              </div>
+            </div>
+
+            {/* STATUS */}
+            <span
+              className={`status-badge status-${app.status}`}
+            >
+              {app.status}
+            </span>
+
+            {/* MATCHED */}
+            <div className="skills-section">
+
+              <h4>Matched Skills</h4>
+
+              <div className="skills-list">
+
+                {app.matchedSkills?.map(
+                  (skill, index) => (
+                    <span
+                      className="skill-tag"
+                      key={index}
+                    >
+                      {skill}
+                    </span>
+                  )
+                )}
+
+              </div>
+            </div>
+
+            {/* MISSING */}
+            <div className="skills-section">
+
+              <h4>Missing Skills</h4>
+
+              <div className="skills-list">
+
+                {app.missingSkills?.map(
+                  (skill, index) => (
+                    <span
+                      className="skill-tag missing-tag"
+                      key={index}
+                    >
+                      {skill}
+                    </span>
+                  )
+                )}
+
+              </div>
+            </div>
+
+            {/* BUTTONS */}
+            <div className="action-buttons">
+
+              <button
+                className="shortlist-btn"
+                onClick={() =>
+                  updateStatus(
+                    app._id,
+                    "shortlisted"
+                  )
+                }
+              >
+                Shortlist
+              </button>
+
+              <button
+                className="reject-btn"
+                onClick={() =>
+                  updateStatus(
+                    app._id,
+                    "rejected"
+                  )
+                }
+              >
+                Reject
+              </button>
+
+            </div>
+
+          </div>
+        ))}
+
+      </div>
     </div>
   );
 }

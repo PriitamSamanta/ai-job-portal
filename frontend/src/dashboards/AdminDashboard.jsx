@@ -96,7 +96,7 @@ function AdminDashboard() {
         {/* ACTIONS */}
         <div className="admin-actions">
 
-          <Link
+          <NavLink
             to="/admin/users"
             className="admin-card"
           >
@@ -108,9 +108,9 @@ function AdminDashboard() {
               recruiters, and admin accounts.
             </p>
 
-          </Link>
+          </NavLink>
 
-          <Link
+          <NavLink
             to="/admin/jobs"
             className="admin-card"
           >
@@ -122,9 +122,9 @@ function AdminDashboard() {
               recruitment activities.
             </p>
 
-          </Link>
+          </NavLink>
 
-          <Link
+          <NavLink
             to="/admin/applications"
             className="admin-card"
           >
@@ -136,9 +136,9 @@ function AdminDashboard() {
               recruitment insights.
             </p>
 
-          </Link>
+          </NavLink>
 
-          <Link
+          <NavLink
             to="/admin/activity-logs"
             className="admin-card"
           >
@@ -150,7 +150,7 @@ function AdminDashboard() {
               platform actions in real-time.
             </p>
 
-          </Link>
+          </NavLink>
 
         </div>
       </div>

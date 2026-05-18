@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
 
+
 function AdminJobs() {
   const [jobs, setJobs] = useState([]);
 
@@ -19,21 +20,46 @@ function AdminJobs() {
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>All Jobs</h2>
+    <div className="admin-page-content">
 
-      {jobs.map((job) => (
-        <div
-          key={job._id}
-          style={{ border: "1px solid gray", padding: "10px", margin: "10px" }}
-        >
-          <h3>{job.title}</h3>
+      <div className="admin-page-header">
+        <h1>All Jobs</h1>
 
-          <p>Company: {job.company}</p>
+        <p>
+          Monitor all job postings
+        </p>
+      </div>
 
-          <p>Location: {job.location}</p>
-        </div>
-      ))}
+      <div className="admin-list">
+
+        {jobs.map((job) => (
+          <div
+            className="admin-row-card"
+            key={job._id}
+          >
+
+            <div className="admin-row-left">
+
+              <h2>{job.title}</h2>
+
+              <p>{job.company}</p>
+
+              <p>{job.location}</p>
+
+            </div>
+
+            <div className="admin-row-right">
+
+              <div className="admin-badge">
+                Active Job
+              </div>
+
+            </div>
+
+          </div>
+        ))}
+
+      </div>
     </div>
   );
 }
