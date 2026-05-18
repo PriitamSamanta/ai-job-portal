@@ -1,43 +1,16 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "../styles/dashboard.css";
+import {
+  FaBriefcase,
+  FaMapMarkedAlt,
+  FaRobot,
+  FaFileUpload,
+} from "react-icons/fa";
 
 function StudentDashboard() {
   return (
     <div className="dashboard-page">
 
-      {/* SIDEBAR */}
-      <div className="dashboard-sidebar">
-
-        <h2 className="dashboard-logo">
-          HireAI
-        </h2>
-
-        <ul>
-          <li>
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
-
-          <li>
-            <Link to="/jobs">Browse Jobs</Link>
-          </li>
-
-          <li>
-            <Link to="/recommended">Recommended Jobs</Link>
-          </li>
-
-          <li>
-            <Link to="/jobs-map">Jobs Map</Link>
-          </li>
-
-          <li>
-            <Link to="/upload-resume">Upload Resume</Link>
-          </li>
-
-          <li>
-            <Link to="/applications">My Applications</Link>
-          </li>
-        </ul>
-      </div>
 
       {/* MAIN CONTENT */}
       <div className="dashboard-content">
@@ -83,33 +56,33 @@ function StudentDashboard() {
         {/* ACTIONS */}
         <div className="action-grid">
 
-          <Link to="/upload-resume" className="action-card">
-            <h2>Upload Resume</h2>
+          <NavLink to="/upload-resume" className="action-card">
+            <h2><FaFileUpload /> Upload Resume</h2>
             <p>
               Upload your resume and let AI analyze your skills.
             </p>
-          </Link>
+          </NavLink>
 
-          <Link to="/recommended" className="action-card">
-            <h2>AI Recommended Jobs</h2>
+          <NavLink to="/recommended" className="action-card">
+            <h2><FaRobot /> AI Recommended Jobs</h2>
             <p>
               Discover jobs matched with your skills and profile.
             </p>
-          </Link>
+          </NavLink>
 
-          <Link to="/jobs" className="action-card">
-            <h2>Browse Jobs</h2>
+          <NavLink to="/jobs" className="action-card">
+            <h2><FaBriefcase /> Browse Jobs</h2>
             <p>
               Search and apply for the latest opportunities.
             </p>
-          </Link>
+          </NavLink>
 
-          <Link to="/jobs-map" className="action-card">
-            <h2>Nearby Jobs Map</h2>
+          <NavLink to="/jobs-map" className="action-card">
+            <h2><FaMapMarkedAlt /> Nearby Jobs Map</h2>
             <p>
               Explore jobs near your location using interactive maps.
             </p>
-          </Link>
+          </NavLink>
 
         </div>
       </div>

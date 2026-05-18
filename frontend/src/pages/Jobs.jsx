@@ -60,33 +60,6 @@ function Jobs() {
   return (
     <div className="jobs-page">
 
-      {/* SIDEBAR */}
-      <div className="jobs-sidebar">
-        <h2 className="jobs-logo">HireAI</h2>
-
-        <ul>
-          <li>
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
-
-          <li>
-            <Link to="/recommended">Recommended Jobs</Link>
-          </li>
-
-          <li>
-            <Link to="/jobs">Browse Jobs</Link>
-          </li>
-
-          <li>
-            <Link to="/jobs-map">Jobs Map</Link>
-          </li>
-
-          <li>
-            <Link to="/applications">My Applications</Link>
-          </li>
-        </ul>
-      </div>
-
       {/* MAIN CONTENT */}
       <div className="jobs-content">
 

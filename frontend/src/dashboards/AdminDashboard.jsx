@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 
@@ -40,47 +40,6 @@ function AdminDashboard() {
   return (
     <div className="admin-page">
 
-      {/* SIDEBAR */}
-      <div className="admin-sidebar">
-
-        <h2 className="admin-logo">
-          HireAI
-        </h2>
-
-        <ul>
-
-          <li>
-            <Link to="/admin-dashboard">
-              Dashboard
-            </Link>
-          </li>
-
-          <li>
-            <Link to="/admin/users">
-              Users
-            </Link>
-          </li>
-
-          <li>
-            <Link to="/admin/jobs">
-              Jobs
-            </Link>
-          </li>
-
-          <li>
-            <Link to="/admin/applications">
-              Applications
-            </Link>
-          </li>
-
-          <li>
-            <Link to="/admin/activity-logs">
-              Activity Logs
-            </Link>
-          </li>
-
-        </ul>
-      </div>
 
       {/* CONTENT */}
       <div className="admin-content">

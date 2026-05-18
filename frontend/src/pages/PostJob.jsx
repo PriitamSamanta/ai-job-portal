@@ -1,127 +1,204 @@
 import { useState } from "react";
+
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  useMapEvents,
+} from "react-leaflet";
+
 import API from "../services/api";
-import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
+
+import "../styles/postJob.css";
+
+function LocationMarker({
+  setLatitude,
+  setLongitude,
+}) {
+
+  const [position, setPosition] = useState(null);
+
+  useMapEvents({
+    click(e) {
+
+      setPosition(e.latlng);
+
+      setLatitude(e.latlng.lat);
+
+      setLongitude(e.latlng.lng);
+    },
+  });
+
+  return position ? (
+    <Marker position={position} />
+  ) : null;
+}
 
 function PostJob() {
+
   const [title, setTitle] = useState("");
   const [company, setCompany] = useState("");
-  const [description, setDescription] = useState("");
-  const [skills, setSkills] = useState("");
   const [location, setLocation] = useState("");
-  const [latitude, setLatitude] = useState(null);
-  const [longitude, setLongitude] = useState(null);
+  const [skills, setSkills] = useState("");
+  const [description, setDescription] =
+    useState("");
 
-  const submitJob = async (e) => {
+  const [latitude, setLatitude] =
+    useState(null);
+
+  const [longitude, setLongitude] =
+    useState(null);
+
+  // SUBMIT
+  const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     try {
+
       await API.post("/jobs", {
         title,
         company,
         description,
-        skills_required: skills.split(","),
         location,
+        skills_required: skills
+          .split(",")
+          .map((s) => s.trim()),
         latitude,
         longitude,
       });
 
-      alert("Job posted successfully");
+      alert("Job posted successfully!");
+
     } catch (error) {
+
       console.error(error);
 
       alert("Error posting job");
     }
   };
 
-  function LocationMarker({ setLatitude, setLongitude }) {
-    useMapEvents({
-      click(e) {
-        setLatitude(e.latlng.lat);
-        setLongitude(e.latlng.lng);
-      },
-    });
-
-    return null;
-  }
-
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Post New Job</h2>
+    <div className="postjob-page">
 
-      <form onSubmit={submitJob}>
-        <input
-          placeholder="Job Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+      <div className="postjob-card">
 
-        <br />
-        <br />
+        {/* HEADER */}
+        <div className="postjob-header">
 
-        <input
-          placeholder="Company"
-          value={company}
-          onChange={(e) => setCompany(e.target.value)}
-        />
+          <h1>Post New Job</h1>
 
-        <br />
-        <br />
-
-        <input
-          placeholder="Location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        />
-
-        <br />
-        <br />
-
-        <input
-          placeholder="Skills (comma separated)"
-          value={skills}
-          onChange={(e) => setSkills(e.target.value)}
-        />
-
-        <br />
-        <br />
-
-        <textarea
-          placeholder="Job Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-
-        <br />
-        <br />
-
-        <h3>Select Job Location on Map</h3>
-
-        <MapContainer
-          center={[23.0225, 72.5714]} // Ahmedabad default
-          zoom={10}
-          style={{ height: "300px", width: "100%", marginBottom: "20px" }}
-        >
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
-          <LocationMarker
-            setLatitude={setLatitude}
-            setLongitude={setLongitude}
-          />
-
-          {latitude && longitude && <Marker position={[latitude, longitude]} />}
-        </MapContainer>
-
-        {latitude && (
           <p>
-            Selected Location: {latitude.toFixed(4)}, {longitude.toFixed(4)}
+            Create AI-powered job listings with
+            precise map locations
           </p>
-        )}
 
-        <br />
-        <br />
+        </div>
 
-        <button type="submit">Post Job</button>
-      </form>
+        {/* FORM */}
+        <form onSubmit={handleSubmit}>
+
+          <div className="postjob-form">
+
+            <input
+              className="postjob-input"
+              placeholder="Job Title"
+              value={title}
+              onChange={(e) =>
+                setTitle(e.target.value)
+              }
+            />
+
+            <input
+              className="postjob-input"
+              placeholder="Company Name"
+              value={company}
+              onChange={(e) =>
+                setCompany(e.target.value)
+              }
+            />
+
+            <input
+              className="postjob-input"
+              placeholder="Location"
+              value={location}
+              onChange={(e) =>
+                setLocation(e.target.value)
+              }
+            />
+
+            <input
+              className="postjob-input"
+              placeholder="Skills (React, Node, MongoDB)"
+              value={skills}
+              onChange={(e) =>
+                setSkills(e.target.value)
+              }
+            />
+
+            <textarea
+              className="postjob-textarea"
+              placeholder="Job Description"
+              value={description}
+              onChange={(e) =>
+                setDescription(e.target.value)
+              }
+            />
+
+          </div>
+
+          {/* MAP */}
+          <div className="map-section">
+
+            <h2>Select Job Location</h2>
+
+            <div className="map-wrapper">
+
+              <MapContainer
+                center={[23.0225, 72.5714]}
+                zoom={10}
+                style={{
+                  height: "350px",
+                  width: "100%",
+                }}
+              >
+
+                <TileLayer
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+
+                <LocationMarker
+                  setLatitude={setLatitude}
+                  setLongitude={setLongitude}
+                />
+
+              </MapContainer>
+            </div>
+
+            {latitude && longitude && (
+
+              <div className="selected-location">
+
+                📍 Selected Coordinates:
+                {" "}
+                {latitude.toFixed(4)},
+                {" "}
+                {longitude.toFixed(4)}
+
+              </div>
+            )}
+          </div>
+
+          {/* BUTTON */}
+          <button
+            type="submit"
+            className="postjob-btn"
+          >
+            Post Job
+          </button>
+
+        </form>
+      </div>
     </div>
   );
 }
