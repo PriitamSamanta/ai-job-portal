@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import API from "../services/api";
 import "../styles/jobs.css";
+import toast from "react-hot-toast";
 
 function Jobs() {
   const [jobs, setJobs] = useState([]);
@@ -31,11 +32,11 @@ function Jobs() {
         job_id: jobId,
       });
 
-      alert("Applied Successfully!");
+      toast.success("Applied Successfully!");
     } catch (error) {
       console.error(error);
 
-      alert("Already applied or error occurred");
+      toast.error("Already applied or error occurred");
     }
   };
 

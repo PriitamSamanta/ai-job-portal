@@ -3,6 +3,14 @@ import {
   Outlet,
 } from "react-router-dom";
 
+import {
+  FiHome,
+  FiUsers,
+  FiBriefcase,
+  FiFileText,
+  FiActivity,
+} from "react-icons/fi";
+
 import "../styles/admin.css";
 
 function AdminLayout() {
@@ -28,6 +36,7 @@ function AdminLayout() {
                   : "sidebar-link"
               }
             >
+              <FiHome className="sidebar-icon" />
               Dashboard
             </NavLink>
           </li>
@@ -41,6 +50,7 @@ function AdminLayout() {
                   : "sidebar-link"
               }
             >
+              <FiUsers className="sidebar-icon" />
               Users
             </NavLink>
           </li>
@@ -54,6 +64,7 @@ function AdminLayout() {
                   : "sidebar-link"
               }
             >
+              <FiBriefcase className="sidebar-icon" />
               Jobs
             </NavLink>
           </li>
@@ -67,6 +78,7 @@ function AdminLayout() {
                   : "sidebar-link"
               }
             >
+              <FiFileText className="sidebar-icon" />
               Applications
             </NavLink>
           </li>
@@ -80,6 +92,7 @@ function AdminLayout() {
                   : "sidebar-link"
               }
             >
+              <FiActivity className="sidebar-icon" />
               Activity Logs
             </NavLink>
           </li>

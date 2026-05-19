@@ -1,4 +1,13 @@
 import { NavLink, Outlet } from "react-router-dom";
+import {
+  FiHome,
+  FiUsers,
+  FiBriefcase,
+  FiFileText,
+  FiActivity,
+  FiMapPin,
+  FiUpload,
+} from "react-icons/fi";
 
 import "../styles/dashboard.css";
 
@@ -25,6 +34,7 @@ function StudentLayout() {
                   : "sidebar-link"
               }
             >
+              <FiHome className="sidebar-icon" />
               Dashboard
             </NavLink>
           </li>
@@ -38,6 +48,7 @@ function StudentLayout() {
                   : "sidebar-link"
               }
             >
+              <FiBriefcase className="sidebar-icon" />
               Browse Jobs
             </NavLink>
           </li>
@@ -51,6 +62,7 @@ function StudentLayout() {
                   : "sidebar-link"
               }
             >
+              <FiUsers className="sidebar-icon" />
               Recommended Jobs
             </NavLink>
           </li>
@@ -64,6 +76,7 @@ function StudentLayout() {
                   : "sidebar-link"
               }
             >
+              <FiMapPin className="sidebar-icon" />
               Jobs Map
             </NavLink>
           </li>
@@ -77,6 +90,7 @@ function StudentLayout() {
                   : "sidebar-link"
               }
             >
+              <FiUpload className="sidebar-icon" />
               Upload Resume
             </NavLink>
           </li>
@@ -90,6 +104,7 @@ function StudentLayout() {
                   : "sidebar-link"
               }
             >
+              <FiFileText className="sidebar-icon" />
               My Applications
             </NavLink>
           </li>

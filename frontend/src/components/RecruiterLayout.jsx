@@ -2,6 +2,11 @@ import {
   NavLink,
   Outlet,
 } from "react-router-dom";
+import {
+  FiHome,
+  FiBriefcase,
+  FiFileText,
+} from "react-icons/fi";
 
 import "../styles/recruiter.css";
 
@@ -28,6 +33,7 @@ function RecruiterLayout() {
                   : "sidebar-link"
               }
             >
+              <FiHome className="sidebar-icon" />
               Dashboard
             </NavLink>
           </li>
@@ -41,6 +47,7 @@ function RecruiterLayout() {
                   : "sidebar-link"
               }
             >
+              <FiBriefcase className="sidebar-icon" />
               Post Job
             </NavLink>
           </li>
@@ -54,6 +61,7 @@ function RecruiterLayout() {
                   : "sidebar-link"
               }
             >
+              <FiFileText className="sidebar-icon" />
               My Jobs
             </NavLink>
           </li>

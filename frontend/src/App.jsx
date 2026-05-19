@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 import StudentLayout from "./components/StudentLayout";
 import RecruiterLayout from "./components/RecruiterLayout";
@@ -27,6 +28,7 @@ import JobsMap from "./pages/JobsMap";
 function App() {
   return (
     <BrowserRouter>
+     <Toaster position="top-right" />
       <Routes>
         <Route path="/" element={<Login />} />
 
@@ -90,9 +92,9 @@ function App() {
           />
 
           <Route
-  path="/job-applicants/:jobId"
-  element={<JobApplicants />}
-/>
+            path="/job-applicants/:jobId"
+            element={<JobApplicants />}
+          />
 
         </Route>
 
