@@ -3,6 +3,7 @@ import { useState } from "react";
 import API from "../services/api";
 
 import "../styles/uploadResume.css";
+import toast from "react-hot-toast";
 
 function UploadResume() {
 
@@ -11,7 +12,7 @@ function UploadResume() {
   const handleUpload = async () => {
 
     if (!file) {
-      alert("Please select a PDF");
+      toast.error("Please select a PDF");
       return;
     }
 
@@ -26,13 +27,13 @@ function UploadResume() {
         formData
       );
 
-      alert("Resume uploaded successfully");
+      toast.success("Resume uploaded successfully");
 
     } catch (error) {
 
       console.error(error);
 
-      alert("Upload failed");
+      toast.error("Upload failed");
     }
   };
 

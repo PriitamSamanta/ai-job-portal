@@ -1,21 +1,28 @@
 .applicants-page {
-    padding: 20px;
-    max-width: 1300px;
+    padding: 30px;
+    max-width: 1400px;
 }
 
 /* HEADER */
 
 .applicants-header {
-    margin-bottom: 30px;
+    margin-bottom: 35px;
 }
 
 .applicants-header h1 {
-    margin-bottom: 10px;
+    margin: 0;
+
+    font-size: 36px;
+
     color: #111827;
 }
 
 .applicants-header p {
     color: #6b7280;
+
+    margin-top: 10px;
+
+    font-size: 16px;
 }
 
 /* GRID */
@@ -24,7 +31,7 @@
     display: grid;
 
     grid-template-columns:
-        repeat(auto-fit, minmax(420px, 520px));
+        repeat(auto-fit, minmax(420px, 1fr));
 
     gap: 24px;
 }
@@ -33,57 +40,93 @@
 
 .applicant-card {
     background: white;
-    border-radius: 20px;
-    padding: 24px;
+
+    border-radius: 24px;
+
+    padding: 28px;
+
     border: 1px solid #e5e7eb;
-    transition: 0.2s ease;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+    position: relative;
 }
 
 .applicant-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-5px);
+
     box-shadow:
-        0 10px 25px rgba(0, 0, 0, 0.05);
+        0 12px 28px rgba(0, 0, 0, 0.06);
 }
 
 /* USER */
 
 .applicant-name {
     margin-bottom: 8px;
+
+    font-size: 24px;
+
+    color: #111827;
 }
 
 .applicant-email {
     color: #6b7280;
-    margin-bottom: 15px;
+
+    margin-bottom: 18px;
+
+    font-size: 15px;
 }
 
 /* SCORE */
 
 .score-section {
-    margin-top: 20px;
+    margin-top: 24px;
+}
+
+.score-section h4 {
+    margin-bottom: 12px;
+
+    color: #111827;
 }
 
 .score-bar {
-    height: 10px;
+    height: 12px;
+
     background: #e5e7eb;
-    border-radius: 20px;
+
+    border-radius: 999px;
+
     overflow: hidden;
-    margin-top: 10px;
+
+    margin-top: 12px;
 }
 
 .score-fill {
     height: 100%;
-    background: #22c55e;
+
+    background: linear-gradient(90deg,
+            #22c55e,
+            #16a34a);
 }
 
 /* STATUS */
 
 .status-badge {
     display: inline-block;
-    margin-top: 18px;
-    padding: 8px 14px;
-    border-radius: 20px;
+
+    margin-top: 20px;
+
+    padding: 8px 16px;
+
+    border-radius: 999px;
+
     font-size: 12px;
-    font-weight: bold;
+
+    font-weight: 700;
+
+    text-transform: capitalize;
 }
 
 .status-pending {
@@ -104,23 +147,38 @@
 /* SKILLS */
 
 .skills-section {
-    margin-top: 20px;
+    margin-top: 24px;
+}
+
+.skills-section h4 {
+    margin-bottom: 12px;
+
+    color: #111827;
 }
 
 .skills-list {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 10px;
 }
+
+/* TAGS */
 
 .skill-tag {
     background: #eef2ff;
+
     color: #3730a3;
-    padding: 6px 12px;
-    border-radius: 20px;
+
+    padding: 7px 14px;
+
+    border-radius: 999px;
+
     font-size: 12px;
+
+    font-weight: 500;
 }
+
+/* MISSING SKILLS */
 
 .missing-tag {
     background: #fee2e2;
@@ -131,17 +189,28 @@
 
 .action-buttons {
     display: flex;
-    gap: 10px;
-    margin-top: 25px;
+
+    gap: 12px;
+
+    margin-top: 28px;
 }
+
+/* BUTTON */
 
 .shortlist-btn,
 .reject-btn {
     flex: 1;
+
     border: none;
-    padding: 12px;
-    border-radius: 14px;
+
+    padding: 14px;
+
+    border-radius: 16px;
+
     cursor: pointer;
+
+    font-weight: 600;
+
     transition: 0.2s ease;
 }
 
@@ -158,4 +227,41 @@
 .shortlist-btn:hover,
 .reject-btn:hover {
     transform: translateY(-2px);
+}
+
+/* EMPTY */
+
+.empty-state {
+    background: white;
+
+    border-radius: 24px;
+
+    padding: 60px 20px;
+
+    text-align: center;
+
+    border: 1px solid #e5e7eb;
+}
+
+.empty-state h2 {
+    margin-bottom: 10px;
+
+    color: #111827;
+}
+
+.empty-state p {
+    color: #6b7280;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+
+    .applicants-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
 }

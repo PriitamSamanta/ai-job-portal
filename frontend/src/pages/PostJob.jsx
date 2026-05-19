@@ -10,6 +10,7 @@ import {
 import API from "../services/api";
 
 import "../styles/postJob.css";
+import toast from "react-hot-toast";
 
 function LocationMarker({
   setLatitude,
@@ -68,13 +69,13 @@ function PostJob() {
         longitude,
       });
 
-      alert("Job posted successfully!");
+      toast.success("Job posted successfully!");
 
     } catch (error) {
 
       console.error(error);
 
-      alert("Error posting job");
+      toast.error("Error posting job");
     }
   };
 

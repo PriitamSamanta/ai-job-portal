@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 import "../styles/login.css";
 import bg from "../assets/login.jpg";
+import toast from "react-hot-toast";
 
 function Register() {
   const [name, setName] = useState("");
@@ -23,12 +24,12 @@ function Register() {
         role,
       });
 
-      alert("Registration successful");
+      toast.success("Registration successful");
 
       navigate("/login");
     } catch (err) {
       console.error(err);
-      alert("Registration failed");
+      toast.error("Registration failed");
     }
   };
 

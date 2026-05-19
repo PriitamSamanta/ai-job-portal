@@ -10,6 +10,7 @@ import {
 import API from "../services/api";
 
 import "../styles/jobApplicants.css";
+import toast from "react-hot-toast";
 
 function JobApplicants() {
 
@@ -65,7 +66,7 @@ function JobApplicants() {
 
       console.error(error);
 
-      alert("Failed to update status");
+      toast.error("Failed to update status");
     }
   };
 

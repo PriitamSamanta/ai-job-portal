@@ -25,9 +25,7 @@ body {
   font-weight: bold;
   margin-bottom: 40px;
   color: #111827;
-  background: linear-gradient(90deg,
-      #111827,
-      #4f46e5);
+  background: linear-gradient(90deg, #111827, #4f46e5);
 
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -43,12 +41,23 @@ body {
 }
 
 .admin-sidebar a {
-  display: block;
-  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding: 14px 18px;
   border-radius: 12px;
+
   color: #4b5563;
   font-weight: 500;
+  font-size: 17px;
+
   transition: 0.2s ease;
+}
+
+.admin-sidebar a svg {
+  font-size: 20px;
+  flex-shrink: 0;
 }
 
 .admin-sidebar a:hover {
@@ -175,6 +184,7 @@ button:hover {
   border-radius: 12px;
   color: #4b5563;
   font-weight: 500;
+  gap: 12px;
   transition: 0.2s ease;
 }
 
@@ -240,7 +250,7 @@ button:hover {
   border: 1px solid #e5e7eb;
 
   box-shadow:
-    0 10px 25px rgba(0,0,0,0.04);
+    0 10px 25px rgba(0, 0, 0, 0.04);
 
   transition: 0.2s ease;
 }
@@ -329,7 +339,7 @@ button:hover {
   border-collapse: collapse;
 
   box-shadow:
-    0 10px 25px rgba(0,0,0,0.04);
+    0 10px 25px rgba(0, 0, 0, 0.04);
 }
 
 .activity-table thead {
